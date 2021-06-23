@@ -1,0 +1,4 @@
+*.o
+bin/debug/settings.ini
+bin/debug/game
+bin/debug/res/

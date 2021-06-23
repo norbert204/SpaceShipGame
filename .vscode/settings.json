@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "sdl_image.h": "c",
+        "background.h": "c",
+        "utilities.h": "c",
+        "ship.h": "c",
+        "random": "c",
+        "window.h": "c"
+    }
+}
