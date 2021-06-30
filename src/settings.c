@@ -19,12 +19,12 @@ void settings_createFile(Settings *settings, char *file)
     settings->show_fps = false;
 
     fclose(fp);
+
+    printf("[Engine] %s created succesfully!\n", file);
 }
 
 void settings_readFromFile(Settings *settings, FILE *file)
 {
-    bool error = false;
-
     const int line_size = 100;
     char line[line_size];
     fgets(line, line_size, file);

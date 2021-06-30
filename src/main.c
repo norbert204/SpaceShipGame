@@ -40,6 +40,13 @@ void handle_events(SDL_Event *event)
                 break;
             case SDL_KEYDOWN:
                 ship_handleEvent(&ship, event);
+                
+                //  Debug
+                if (event->key.keysym.sym == SDLK_d)
+                {
+                    meteors_delete(0);
+                }
+                
                 break;
             case SDL_KEYUP:
                 ship_handleEvent(&ship, event);
@@ -61,6 +68,11 @@ void loop()
     //  If we don't delay the updates when starting the game, the background will be buggy
     int update_delay = 10;
 
+    //  TODO: Move it to meteors.c
+    float meteorSpawnTimer = 3;
+
+    bool colliding = false;
+
     while (!stop)
     {
         frame_time = SDL_GetTicks();
@@ -77,12 +89,26 @@ void loop()
         {
             ship_update(&ship);
             background_update();
-            meteors_update();
+            //meteors_update();
+
+
+            for (int i = 0; i < meteors_top; i++)
+            {
+                CircleCollider tmp = (CircleCollider) { (Vector2D) { 32 * meteors[i].scale, 32 * meteors[i].scale }, 32 * meteors[i].scale };
+                colliding = colliding_circle_box(meteors[i], ship.transform, tmp, ship.collision);
+            }
         }
         else
         {
             update_delay--;
         }
+
+        /*meteorSpawnTimer -= delta_time;
+        if (meteorSpawnTimer < 0)
+        {
+            meteors_add();
+            meteorSpawnTimer = .5f;
+        }*/
 
         //
         //  Render
@@ -94,7 +120,7 @@ void loop()
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
         window_renderTransform(ship.transform, (Size2D) { 1024 / 4, 128 }, tex_ship);
 
-        draw_rectangle(ship.transform.position.x + 1024/8 + ship.collision.center.x - ship.collision.size.w / 2, ship.transform.position.y + 128/2 + ship.collision.center.y - ship.collision.size.h / 2, ship.collision.size.w, ship.collision.size.h, color_white());
+        draw_rectangle(ship.transform.position.x + ship.collision.center.x - ship.collision.size.w / 2, ship.transform.position.y + ship.collision.center.y - ship.collision.size.h / 2, ship.collision.size.w, ship.collision.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
 
         //  HUD
 
@@ -191,7 +217,7 @@ int main(int argc, char* argv[])
         meteors_init();
         
         //  Temporary
-        meteors_create();
+        meteors_add();
 
         loop();
     }

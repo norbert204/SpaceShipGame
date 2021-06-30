@@ -15,5 +15,6 @@ typedef struct
     float radius;
 } CircleCollider;
 
+int colliding_circle_box(Transform a, Transform b, CircleCollider ac, BoxCollider bc);
 
 #endif

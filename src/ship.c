@@ -3,7 +3,7 @@
 void ship_init(Ship *ship)
 {
     ship->transform = (Transform) {(Vector2D) {0, 720 / 2}, 1, 0};
-    ship->collision = (BoxCollider) { (Vector2D) { 20, 0 }, (Size2D) { (1024 / 4) - 120 , 60 }};
+    ship->collision = (BoxCollider) { (Vector2D) { 1024 / 8 + 20, 64 }, (Size2D) { (1024 / 4) - 120 , 60 }};
 }
 
 void ship_handleEvent(Ship *ship, SDL_Event *event)
@@ -57,11 +57,11 @@ void ship_update(Ship *ship)
     float newXPos = ship->transform.position.x + ship->velocity.x * SHIP_SPEED / ((ship->velocity.x < 0) ? 2 : 1) * delta_time;
     
     //  TODO: ezt újraírni mert nem a legjobb a működése
-    if (newYPos > 0 - ship->collision.size.h / 4 && newYPos < WINDOW_HEIGHT - 1.25f * ship->collision.size.h)
+    if (newYPos + ship->collision.center.y - ship->collision.size.h / 2 >= 0 && newYPos + ship->collision.center.y + ship->collision.size.h / 2 <= WINDOW_HEIGHT)
     {
         ship->transform.position.y = newYPos;
     }
-    if (newXPos > 0 - ship->collision.size.w / 4 && newXPos < WINDOW_WIDTH - 1.25f * ship->collision.size.w)
+    if (newXPos + ship->collision.center.x - ship->collision.size.w / 2 >= 0 && newXPos + ship->collision.center.x + ship->collision.size.w / 2 <= WINDOW_WIDTH)
     {
         ship->transform.position.x = newXPos;
     }

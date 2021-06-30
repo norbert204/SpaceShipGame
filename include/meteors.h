@@ -11,6 +11,7 @@
 #include "utilities.h"
 
 #define METEORS_MAX 100
+#define METEOR_SPEED 200
 
 typedef struct
 {
@@ -25,6 +26,7 @@ extern int meteors_top;
 void meteors_init();
 void meteors_update();
 void meteors_render(SDL_Texture *texture, Size2D sprite_size);
-void meteors_create();
+void meteors_add();
+void meteors_delete(int id);
 
 #endif

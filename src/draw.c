@@ -1,10 +1,5 @@
 #include "draw.h"
 
-Color color_white()
-{
-    return (Color) { 255, 255, 255, 255 };
-}
-
 void draw_rectangle(const int x, const int y, const int w, const int h, const Color color)
 {
     SDL_Rect rect;
