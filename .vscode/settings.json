@@ -5,6 +5,7 @@
         "utilities.h": "c",
         "ship.h": "c",
         "random": "c",
-        "window.h": "c"
+        "window.h": "c",
+        "meteors.h": "c"
     }
 }

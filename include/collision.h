@@ -16,5 +16,6 @@ typedef struct
 } CircleCollider;
 
 int colliding_circle_box(Transform a, Transform b, CircleCollider ac, BoxCollider bc);
+int colliding_circle_circle(Transform a, Transform b, CircleCollider ac, CircleCollider bc);
 
 #endif

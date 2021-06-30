@@ -7,6 +7,7 @@
 
 #define COLOR_WHITE (Color) { 255, 255, 255 }
 #define COLOR_RED (Color) { 255, 0, 0 }
+#define COLOR_YELLOW (Color) { 255, 255, 0 }
 
 void draw_rectangle(const int x, const int y, const int w, const int h, const Color color);
 void draw_rectangle1(const Vector2D position, const Size2D size, const Color color);

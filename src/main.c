@@ -14,6 +14,7 @@
 #include "ship.h"
 #include "background.h"
 #include "meteors.h"
+#include "missile.h"
 
 char working_directory[1000];
 
@@ -23,6 +24,7 @@ bool stop = false;
 
 Settings settings;
 
+SDL_Texture *tex_blank = NULL;
 SDL_Texture *tex_meteorite = NULL;
 SDL_Texture *tex_ship = NULL;
 SDL_Texture *tex_background = NULL;
@@ -42,9 +44,9 @@ void handle_events(SDL_Event *event)
                 ship_handleEvent(&ship, event);
                 
                 //  Debug
-                if (event->key.keysym.sym == SDLK_d)
+                if (event->key.keysym.sym == SDLK_SPACE)
                 {
-                    meteors_delete(0);
+                    missile_create((Vector2D) { ship.transform.position.x + 1024 / 4 - 40, ship.transform.position.y + 64 });
                 }
                 
                 break;
@@ -89,13 +91,24 @@ void loop()
         {
             ship_update(&ship);
             background_update();
-            //meteors_update();
+            
+            meteorSpawnTimer -= delta_time;
+            if (meteorSpawnTimer < 0)
+            {
+                meteors_add();
+                meteorSpawnTimer = .5f;
+            }
+            
+            meteors_update();
+            missile_update();
 
-
+            //  TODO: move this from here
             for (int i = 0; i < meteors_top; i++)
             {
-                CircleCollider tmp = (CircleCollider) { (Vector2D) { 32 * meteors[i].scale, 32 * meteors[i].scale }, 32 * meteors[i].scale };
-                colliding = colliding_circle_box(meteors[i], ship.transform, tmp, ship.collision);
+                colliding = colliding_circle_box(meteors[i].transform, ship.transform, meteors[i].collider, ship.collision);
+
+                if (colliding)
+                    break;
             }
         }
         else
@@ -103,12 +116,7 @@ void loop()
             update_delay--;
         }
 
-        /*meteorSpawnTimer -= delta_time;
-        if (meteorSpawnTimer < 0)
-        {
-            meteors_add();
-            meteorSpawnTimer = .5f;
-        }*/
+        
 
         //
         //  Render
@@ -118,6 +126,7 @@ void loop()
         background_render(tex_background);
         //  Sprites
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
+        missile_render(tex_blank);
         window_renderTransform(ship.transform, (Size2D) { 1024 / 4, 128 }, tex_ship);
 
         draw_rectangle(ship.transform.position.x + ship.collision.center.x - ship.collision.size.w / 2, ship.transform.position.y + ship.collision.center.y - ship.collision.size.h / 2, ship.collision.size.w, ship.collision.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
@@ -159,6 +168,7 @@ void loop()
 
 void load_textures()
 {
+    tex_blank = window_loadTexture("res/blank.png");
     tex_meteorite = window_loadTexture("res/bigrock.png");
     tex_ship = window_loadTexture("res/ship.png");
     tex_background = window_loadTexture("res/back.png");
@@ -166,6 +176,7 @@ void load_textures()
 
 void destroy_textures()
 {
+    tex_blank = window_destroyTexture(tex_blank);
     tex_meteorite = window_destroyTexture(tex_meteorite);
     tex_ship = window_destroyTexture(tex_ship);
     tex_background = window_destroyTexture(tex_background);
@@ -215,9 +226,7 @@ int main(int argc, char* argv[])
         background_init();
         ship_init(&ship);
         meteors_init();
-        
-        //  Temporary
-        meteors_add();
+        missile_init();
 
         loop();
     }

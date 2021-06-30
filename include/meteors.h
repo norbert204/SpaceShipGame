@@ -15,12 +15,11 @@
 
 typedef struct
 {
-    Transform position;
+    Transform transform;
     CircleCollider collider;
 } Meteor;
 
-extern Transform meteors[METEORS_MAX];
-
+extern Meteor meteors[METEORS_MAX];
 extern int meteors_top;
 
 void meteors_init();

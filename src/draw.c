@@ -20,6 +20,7 @@ void draw_rectangle1(const Vector2D position, const Size2D size, const Color col
     draw_rectangle(position.x, position.y, size.w, size.h, color);
 }
 
+//  TODO: rewrite this to something less resource intensive
 void draw_circle(const float x, const float y, const float r)
 {
     SDL_SetRenderDrawColor(window_getRenderer(), 255, 255, 255, 255);
