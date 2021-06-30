@@ -100,9 +100,11 @@ void loop()
 
         window_display();
 
-        if (SDL_GetTicks() - frame_time < MIN_FRAME_TIME / settings.max_fps)
-            SDL_Delay(MIN_FRAME_TIME  / settings.max_fps - (SDL_GetTicks() - frame_time));
-
+        if (settings.max_fps > 0) 
+        {
+            if (SDL_GetTicks() - frame_time < MIN_FRAME_TIME / settings.max_fps)
+                SDL_Delay(MIN_FRAME_TIME  / settings.max_fps - (SDL_GetTicks() - frame_time));
+        }
         
         last_frame = frame_time;
         if (settings.show_fps)

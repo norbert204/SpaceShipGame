@@ -23,6 +23,8 @@ void settings_createFile(Settings *settings, char *file)
 
 void settings_readFromFile(Settings *settings, FILE *file)
 {
+    bool error = false;
+
     const int line_size = 100;
     char line[line_size];
     fgets(line, line_size, file);
@@ -31,6 +33,11 @@ void settings_readFromFile(Settings *settings, FILE *file)
     char *p = strtok(line, "=");
     p = strtok(NULL, "=");
     settings->max_fps = atoi(p);
+    if (settings->max_fps < 0)
+    {
+        fprintf(stderr, "[Engine] Max FPS can't be a negative number! Using unlocked FPS instead.\n");
+        settings->max_fps = 0;
+    }
 
     fgets(line, line_size, file);
     p = strtok(line, "=");
