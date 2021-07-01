@@ -12,10 +12,23 @@ void missile_create(Vector2D position)
 {
     if (missiles_top < MISSILE_MAX)
     {
-        Vector2D colCenter = { 16, 4 };
-        Size2D colSize = { 32, 8 };
+        Vector2D colCenter = { 16, 2 };
+        Size2D colSize = { 32, 4 };
         missiles[missiles_top] = (Missile) { (Transform) { position, 1, 0 }, (BoxCollider) { colCenter, colSize } };
         missiles_top++;
+    }
+}
+
+void missile_handleEvent(SDL_Event *event, Vector2D shipPosition)
+{
+    switch (event->type)
+    {
+        case SDL_KEYDOWN:
+            if (event->key.keysym.sym == SDLK_SPACE)
+            {
+                missile_create((Vector2D) { shipPosition.x + 1024 / 4 - 40, shipPosition.y + 64 });
+            }
+            break;
     }
 }
 

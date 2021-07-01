@@ -14,12 +14,13 @@ typedef struct
 {
     Transform transform;
     Vector2D velocity;
-    BoxCollider collision;
+    BoxCollider collider;
     bool alive;
 } Ship;
 
 void ship_init(Ship *ship);
 void ship_handleEvent(Ship *ship, SDL_Event *event);
 void ship_update(Ship *ship);
+void ship_render(Ship *ship, SDL_Texture *texture);
 
 #endif

@@ -20,8 +20,8 @@
 #define BG_BIG_SIZE_X WINDOW_WIDTH
 #define BG_BIG_SIZE_Y WINDOW_HEIGHT
 
-#define BG_SMALL_SPEED 500
-#define BG_BIG_SPEED 250
+#define BG_SMALL_SPEED 100
+#define BG_BIG_SPEED 50
 
 extern Vector2D smaller_bg_positions[BG_SMALL_COUNT];
 extern Vector2D bigger_bg_positions[BG_BIG_COUNT];

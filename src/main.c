@@ -42,13 +42,7 @@ void handle_events(SDL_Event *event)
                 break;
             case SDL_KEYDOWN:
                 ship_handleEvent(&ship, event);
-                
-                //  Debug
-                if (event->key.keysym.sym == SDLK_SPACE)
-                {
-                    missile_create((Vector2D) { ship.transform.position.x + 1024 / 4 - 40, ship.transform.position.y + 64 });
-                }
-                
+                missile_handleEvent(event, ship.transform.position);
                 break;
             case SDL_KEYUP:
                 ship_handleEvent(&ship, event);
@@ -105,7 +99,7 @@ void loop()
             //  TODO: move this from here
             for (int i = 0; i < meteors_top; i++)
             {
-                colliding = colliding_circle_box(meteors[i].transform, ship.transform, meteors[i].collider, ship.collision);
+                colliding = colliding_circle_box(meteors[i].transform, ship.transform, meteors[i].collider, ship.collider);
 
                 if (colliding)
                     break;
@@ -127,9 +121,9 @@ void loop()
         //  Sprites
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
         missile_render(tex_blank);
-        window_renderTransform(ship.transform, (Size2D) { 1024 / 4, 128 }, tex_ship);
+        ship_render(&ship, tex_ship);
 
-        draw_rectangle(ship.transform.position.x + ship.collision.center.x - ship.collision.size.w / 2, ship.transform.position.y + ship.collision.center.y - ship.collision.size.h / 2, ship.collision.size.w, ship.collision.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
+        //draw_rectangle(ship.transform.position.x + ship.collider.center.x - ship.collider.size.w / 2, ship.transform.position.y + ship.collider.center.y - ship.collider.size.h / 2, ship.collider.size.w, ship.collider.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
 
         //  HUD
 

@@ -3,7 +3,7 @@
 void ship_init(Ship *ship)
 {
     ship->transform = (Transform) {(Vector2D) {0, 720 / 2}, 1, 0};
-    ship->collision = (BoxCollider) { (Vector2D) { 1024 / 8 + 20, 64 }, (Size2D) { (1024 / 4) - 120 , 60 }};
+    ship->collider = (BoxCollider) { (Vector2D) { 1024 / 8 + 20, 64 }, (Size2D) { (1024 / 4) - 120 , 60 }};
 }
 
 void ship_handleEvent(Ship *ship, SDL_Event *event)
@@ -57,12 +57,17 @@ void ship_update(Ship *ship)
     float newXPos = ship->transform.position.x + ship->velocity.x * SHIP_SPEED / ((ship->velocity.x < 0) ? 2 : 1) * delta_time;
     
     //  TODO: ezt újraírni mert nem a legjobb a működése
-    if (newYPos + ship->collision.center.y - ship->collision.size.h / 2 >= 0 && newYPos + ship->collision.center.y + ship->collision.size.h / 2 <= WINDOW_HEIGHT)
+    if (newYPos + ship->collider.center.y - ship->collider.size.h / 2 >= 0 && newYPos + ship->collider.center.y + ship->collider.size.h / 2 <= WINDOW_HEIGHT)
     {
         ship->transform.position.y = newYPos;
     }
-    if (newXPos + ship->collision.center.x - ship->collision.size.w / 2 >= 0 && newXPos + ship->collision.center.x + ship->collision.size.w / 2 <= WINDOW_WIDTH)
+    if (newXPos + ship->collider.center.x - ship->collider.size.w / 2 >= 0 && newXPos + ship->collider.center.x + ship->collider.size.w / 2 <= WINDOW_WIDTH)
     {
         ship->transform.position.x = newXPos;
     }
+}
+
+void ship_render(Ship *ship, SDL_Texture *texture)
+{
+    window_renderTransform(ship->transform, (Size2D) { 1024 / 4, 128 }, texture);
 }
