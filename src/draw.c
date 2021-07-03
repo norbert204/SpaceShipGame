@@ -20,15 +20,51 @@ void draw_rectangle1(const Vector2D position, const Size2D size, const Color col
     draw_rectangle(position.x, position.y, size.w, size.h, color);
 }
 
-//  TODO: rewrite this to something less resource intensive
+/*
+    https://stackoverflow.com/questions/38334081/howto-draw-circles-arcs-and-vector-graphics-in-sdl
+*/
 void draw_circle(const float x, const float y, const float r)
 {
     SDL_SetRenderDrawColor(window_getRenderer(), 255, 255, 255, 255);
 
-    for (int i = 0; i < 360; i++)
+    const int d = r * 2;
+
+    int _x = r - 1;
+    int _y = 0;
+    int tx = 1;
+    int ty = 1;
+    int error = (tx - d);
+
+    while (_x >= _y)
     {
-        SDL_RenderDrawLine(window_getRenderer(), x + SDL_sin(i * M_PI/180.0f) * r, y + SDL_cos(i * M_PI/180.0f) * r, x + SDL_sin((i + 1) * M_PI/180.0f) * r, y + SDL_cos((i + 1) * M_PI/180.0f) * r);
+        SDL_RenderDrawPoint(renderer, x + _x, y - _y);
+        SDL_RenderDrawPoint(renderer, x + _x, y + _y);
+        SDL_RenderDrawPoint(renderer, x - _x, y - _y);
+        SDL_RenderDrawPoint(renderer, x - _x, y + _y);
+        SDL_RenderDrawPoint(renderer, x + _y, y - _x);
+        SDL_RenderDrawPoint(renderer, x + _y, y + _x);
+        SDL_RenderDrawPoint(renderer, x - _y, y - _x);
+        SDL_RenderDrawPoint(renderer, x - _y, y + _x);
+
+        if (error <= 0)
+        {
+            _y++;
+            error += ty;
+            ty += 2;
+        }
+
+        if (error > 0)
+        {
+            _x--;
+            ty += 2;
+            error += (tx - d);
+        }
     }
 
     SDL_SetRenderDrawColor(window_getRenderer(), 0, 0, 0, 255);
+}
+
+void draw_text(char *text)
+{
+    //  TODO: ...yes
 }
