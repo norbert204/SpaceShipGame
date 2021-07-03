@@ -48,12 +48,3 @@ void background_render(SDL_Texture *texture)
         window_renderEx(bigger_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_BIG_SIZE_X, BG_BIG_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, texture);
     }
 }
-
-void background_destroy()
-{
-    /*free(smaller_bg_positions);
-    free(bigger_bg_positions);
-
-    smaller_bg_positions = NULL;
-    bigger_bg_positions = NULL;*/
-}

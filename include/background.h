@@ -29,6 +29,5 @@ extern Vector2D bigger_bg_positions[BG_BIG_COUNT];
 void background_init();
 void background_update();
 void background_render(SDL_Texture *texture);
-void background_destroy();
 
 #endif

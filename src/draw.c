@@ -20,6 +20,21 @@ void draw_rectangle1(const Vector2D position, const Size2D size, const Color col
     draw_rectangle(position.x, position.y, size.w, size.h, color);
 }
 
+void draw_filledRectangle(const int x, const int y, const int w, const int h, Color color)
+{
+    SDL_Rect rect;
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+
+    SDL_SetRenderDrawColor(window_getRenderer(), color.r, color.g, color.b, color.a);
+
+    SDL_RenderFillRect(window_getRenderer(), &rect);
+
+    SDL_SetRenderDrawColor(window_getRenderer(), 0, 0, 0, 255);
+}
+
 /*
     https://stackoverflow.com/questions/38334081/howto-draw-circles-arcs-and-vector-graphics-in-sdl
 */

@@ -24,6 +24,7 @@ bool stop = false;
 
 Settings settings;
 
+//  TODO: implement a proper texture manager
 SDL_Texture *tex_blank = NULL;
 SDL_Texture *tex_meteorite = NULL;
 SDL_Texture *tex_ship = NULL;
@@ -110,26 +111,27 @@ void loop()
             update_delay--;
         }
 
-        
-
         //
         //  Render
         //
         window_clear();
-        //  Background
+        
+        //  Background Layer
         background_render(tex_background);
-        //  Sprites
+       
+        //  Sprite Layer
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
-        missile_render(tex_blank);
+        missile_render();
         ship_render(&ship, tex_ship);
 
-        //draw_rectangle(ship.transform.position.x + ship.collider.center.x - ship.collider.size.w / 2, ship.transform.position.y + ship.collider.center.y - ship.collider.size.h / 2, ship.collider.size.w, ship.collider.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
-
-        //  HUD
+        //  HUD Layer
         missile_renderHUD(tex_blank);
 
         window_display();
 
+        //
+        //  Delay to limit the FPS
+        //
         if (settings.max_fps > 0) 
         {
             if (SDL_GetTicks() - frame_time < MIN_FRAME_TIME / settings.max_fps)
@@ -137,6 +139,10 @@ void loop()
         }
         
         last_frame = frame_time;
+
+        //
+        //  Wanna show FPS numbers?
+        //
         if (settings.show_fps)
         {
             fps++;
@@ -179,21 +185,15 @@ void destroy_textures()
 
 void stop_game()
 {
-    background_destroy();
-
     destroy_textures();
     window_stop();
 }
 
-int main(int argc, char* argv[])
+void get_working_dir(char *executableName)
 {
-    //  TODO:
-    //  -   make a windows version of this
-    //  -   move this from here
-
-    if (argv[0][0] == '/')
+    if (executableName[0] == '/')
     {
-        strcpy(working_directory, argv[0]);
+        strcpy(working_directory, executableName);
     }
     else 
     {
@@ -201,14 +201,21 @@ int main(int argc, char* argv[])
         getcwd(tmp, 1000);
         strcpy(working_directory, tmp);
         strcat(working_directory, "/");
-        strcat(working_directory, argv[0]);
+        strcat(working_directory, executableName);
     }
 
     char *p;
     p = strrchr(working_directory, '/');
     *p = '\0';
     strcat(working_directory, "/");
+}
 
+int main(int argc, char* argv[])
+{
+    //  TODO:
+    //  -   make a windows version of this
+
+    get_working_dir(argv[0]);
 
     if (window_init())
     {

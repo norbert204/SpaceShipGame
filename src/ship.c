@@ -56,7 +56,6 @@ void ship_update(Ship *ship)
     float newYPos = ship->transform.position.y + ship->velocity.y * SHIP_SPEED * delta_time;
     float newXPos = ship->transform.position.x + ship->velocity.x * SHIP_SPEED / ((ship->velocity.x < 0) ? 2 : 1) * delta_time;
     
-    //  TODO: ezt újraírni mert nem a legjobb a működése
     if (newYPos + ship->collider.center.y - ship->collider.size.h / 2 >= 0 && newYPos + ship->collider.center.y + ship->collider.size.h / 2 <= WINDOW_HEIGHT)
     {
         ship->transform.position.y = newYPos;

@@ -28,7 +28,7 @@ void missile_init();
 void missile_create(Vector2D position);
 void missile_handleEvent(SDL_Event *event, Vector2D shipPosition);
 void missile_update();
-void missile_render(SDL_Texture *texture);
+void missile_render();
 void missile_renderHUD(SDL_Texture *tex_blank);
 void missile_delete(int id);
 

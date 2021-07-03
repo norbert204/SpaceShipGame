@@ -77,18 +77,18 @@ void missile_update()
     }
 }
 
-void missile_render(SDL_Texture *texture)
+void missile_render()
 {
     for (int i = 0; i < missiles_top; i++) 
     {
-        window_renderEx(missiles[i].transform.position, (Size2D) { 1, 1 }, missiles[i].collider.size, 0, COLOR_YELLOW, texture);
+        draw_filledRectangle(missiles[i].transform.position.x, missiles[i].transform.position.y, missiles[i].collider.size.w, missiles[i].collider.size.h, COLOR_YELLOW);
     }
 }
 
 void missile_renderHUD(SDL_Texture *tex_blank)
 {
-    window_renderEx((Vector2D) { 0, WINDOW_HEIGHT - 10 }, (Size2D) { 1, 1 }, (Size2D) { WINDOW_WIDTH, 10 }, 0, COLOR_YELLOW, tex_blank);
-    window_renderEx((Vector2D) { WINDOW_WIDTH - (missile_cooldown / MISSILE_COOLDOWN) * WINDOW_WIDTH + 1, WINDOW_HEIGHT - 10 }, (Size2D) { 1, 1 }, (Size2D) { (missile_cooldown / MISSILE_COOLDOWN) * WINDOW_WIDTH, 10 }, 0, COLOR_BLACK, tex_blank);
+    draw_filledRectangle(0, WINDOW_HEIGHT - 10, WINDOW_WIDTH, 10, COLOR_YELLOW);
+    draw_filledRectangle(WINDOW_WIDTH - (missile_cooldown / MISSILE_COOLDOWN) * WINDOW_WIDTH + 1, WINDOW_HEIGHT - 10, (missile_cooldown / MISSILE_COOLDOWN) * WINDOW_WIDTH, 10, COLOR_BLACK);
 }
 
 void missile_delete(int id)
