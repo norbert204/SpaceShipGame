@@ -126,6 +126,7 @@ void loop()
         //draw_rectangle(ship.transform.position.x + ship.collider.center.x - ship.collider.size.w / 2, ship.transform.position.y + ship.collider.center.y - ship.collider.size.h / 2, ship.collider.size.w, ship.collider.size.h, (colliding) ? COLOR_RED : COLOR_WHITE);
 
         //  HUD
+        missile_renderHUD(tex_blank);
 
         window_display();
 

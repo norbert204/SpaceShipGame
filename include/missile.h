@@ -12,6 +12,7 @@
 
 #define MISSILE_MAX 2
 #define MISSILE_SPEED 900
+#define MISSILE_COOLDOWN 3
 
 typedef struct
 {
@@ -21,12 +22,14 @@ typedef struct
 
 extern Missile missiles[MISSILE_MAX];
 extern int missiles_top;
+extern float missile_cooldown;
 
 void missile_init();
 void missile_create(Vector2D position);
 void missile_handleEvent(SDL_Event *event, Vector2D shipPosition);
 void missile_update();
 void missile_render(SDL_Texture *texture);
+void missile_renderHUD(SDL_Texture *tex_blank);
 void missile_delete(int id);
 
 #endif

@@ -6,6 +6,7 @@
 #include "mathe.h"
 
 #define COLOR_WHITE (Color) { 255, 255, 255 }
+#define COLOR_BLACK (Color) { 0, 0, 0 }
 #define COLOR_RED (Color) { 255, 0, 0 }
 #define COLOR_YELLOW (Color) { 255, 255, 0 }
 
