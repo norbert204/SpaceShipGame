@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#if defined(_WIN32) || defined(WIN32)
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
 #include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -87,6 +94,7 @@ void loop()
             ship_update(&ship);
             background_update();
             
+            //  TODO: move this from here
             meteorSpawnTimer -= delta_time;
             if (meteorSpawnTimer < 0)
             {
@@ -191,14 +199,19 @@ void stop_game()
 
 void get_working_dir(char *executableName)
 {
+    //  TODO: make a windows version of this
+
     if (executableName[0] == '/')
     {
         strcpy(working_directory, executableName);
     }
     else 
     {
-        char tmp[1000];
-        getcwd(tmp, 1000);
+        char tmp[FILENAME_MAX];
+        GetCurrentDir(tmp, FILENAME_MAX);
+
+        printf("%s\n", tmp);
+
         strcpy(working_directory, tmp);
         strcat(working_directory, "/");
         strcat(working_directory, executableName);
@@ -212,9 +225,6 @@ void get_working_dir(char *executableName)
 
 int main(int argc, char* argv[])
 {
-    //  TODO:
-    //  -   make a windows version of this
-
     get_working_dir(argv[0]);
 
     if (window_init())

@@ -1,5 +1,8 @@
 *.o
-bin/debug/settings.ini
-bin/debug/game
-bin/debug/res/
+bin/debug/linux/settings.ini
+bin/debug/linux/game
+bin/debug/linux/res/
+bin/debug/windows/settings.ini
+bin/debug/windows/game.exe
+bin/debug/windows/res/
 *.zip

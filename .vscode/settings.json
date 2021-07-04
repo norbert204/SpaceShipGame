@@ -6,6 +6,7 @@
         "ship.h": "c",
         "random": "c",
         "window.h": "c",
-        "meteors.h": "c"
+        "meteors.h": "c",
+        "dirent.h": "c"
     }
 }
