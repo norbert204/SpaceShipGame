@@ -77,18 +77,18 @@ void window_renderSprite(const Vector2D position, const Sprite sprite)
     SDL_Rect pos_rect;
     pos_rect.x = position.x;
     pos_rect.y = position.y;
-    pos_rect.w = sprite.tileSize.w;
-    pos_rect.h = sprite.tileSize.h;
+    pos_rect.w = sprite.tile_size.w;
+    pos_rect.h = sprite.tile_size.h;
 
     SDL_Rect image_rect;
-    image_rect.x = sprite.animations[sprite.currentAnimation].startingFrame * sprite.tileSize.w;
+    image_rect.x = sprite.animations[sprite.current_animation].starting_frame + sprite.animations[sprite.current_animation].current_frame * sprite.tile_size.w;
     image_rect.y = 0;
-    image_rect.w = sprite.tileSize.w;
-    image_rect.h = sprite.tileSize.h;
+    image_rect.w = sprite.tile_size.w;
+    image_rect.h = sprite.tile_size.h;
 
     SDL_Point center;
-    center.x = sprite.tileSize.w / 2;
-    center.y = sprite.tileSize.h / 2;
+    center.x = sprite.tile_size.w / 2;
+    center.y = sprite.tile_size.h / 2;
 
     SDL_SetTextureAlphaMod(sprite.texture, 255);
     SDL_SetTextureColorMod(sprite.texture, 255, 255, 255);
