@@ -43,17 +43,12 @@ void handle_events(SDL_Event *event)
 {
     while (SDL_PollEvent(event) != 0)
     {
+        ship_handleEvents(&ship, event);
+        missile_handleEvent(event, ship.transform.position);
         switch (event->type)
         {
             case SDL_QUIT:
                 stop = true;
-                break;
-            case SDL_KEYDOWN:
-                ship_handleEvent(&ship, event);
-                missile_handleEvent(event, ship.transform.position);
-                break;
-            case SDL_KEYUP:
-                ship_handleEvent(&ship, event);
                 break;
         }
     }

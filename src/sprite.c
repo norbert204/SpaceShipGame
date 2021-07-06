@@ -1,6 +1,6 @@
 #include "sprite.h"
 
-Sprite sprite_create(const SDL_Texture *texture, const int number_of_animations, const Size2D tile_size)
+Sprite sprite_create(SDL_Texture *texture, const int number_of_animations, const Size2D tile_size)
 {
     Sprite sprite;
     sprite.texture = texture;

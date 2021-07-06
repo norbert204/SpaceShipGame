@@ -21,7 +21,7 @@ typedef struct
 } Ship;
 
 void ship_init(Ship *ship, SDL_Texture *texture);
-void ship_handleEvent(Ship *ship, SDL_Event *event);
+void ship_handleEvents(Ship *ship, SDL_Event *event);
 void ship_update(Ship *ship);
 void ship_render(Ship *ship, SDL_Texture *texture);
 

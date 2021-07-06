@@ -31,7 +31,7 @@ typedef struct
     Size2D tile_size;
 } Sprite;
 
-Sprite sprite_create(const SDL_Texture *texture, const int number_of_animations, const Size2D tile_size);
+Sprite sprite_create(SDL_Texture *texture, const int number_of_animations, const Size2D tile_size);
 void sprite_update(Sprite *sprite);
 void sprite_destroy(Sprite *sprite);
 

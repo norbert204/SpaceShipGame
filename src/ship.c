@@ -10,7 +10,7 @@ void ship_init(Ship *ship, SDL_Texture *texture)
     ship->collider = (BoxCollider) { (Vector2D) { 1024 / 8 + 20, 64 }, (Size2D) { (1024 / 4) - 120 , 60 }};
 }
 
-void ship_handleEvent(Ship *ship, SDL_Event *event)
+void ship_handleEvents(Ship *ship, SDL_Event *event)
 {
     switch (event->type)
     {
@@ -19,11 +19,11 @@ void ship_handleEvent(Ship *ship, SDL_Event *event)
             {
                 case SDLK_UP:
                     ship->velocity.y = -1;
-                    ship->sprite.currentAnimation = 1;
+                    ship->sprite.current_animation = 1;
                     break;
                 case SDLK_DOWN:
                     ship->velocity.y = 1;
-                    ship->sprite.currentAnimation = 2;
+                    ship->sprite.current_animation = 2;
                     break;
                 case SDLK_RIGHT:
                     ship->velocity.x = 1;
@@ -39,12 +39,12 @@ void ship_handleEvent(Ship *ship, SDL_Event *event)
                 case SDLK_UP:
                     if (ship->velocity.y < 0)
                         ship->velocity.y = 0;
-                    ship->sprite.currentAnimation = 0;
+                    ship->sprite.current_animation = 0;
                     break;
                 case SDLK_DOWN:
                     if (ship->velocity.y > 0)
                         ship->velocity.y = 0;
-                    ship->sprite.currentAnimation = 0;
+                    ship->sprite.current_animation = 0;
                     break;
                 case SDLK_RIGHT:
                     if (ship->velocity.x > 0)
@@ -61,16 +61,16 @@ void ship_handleEvent(Ship *ship, SDL_Event *event)
 
 void ship_update(Ship *ship)
 {
-    float newYPos = ship->transform.position.y + ship->velocity.y * SHIP_SPEED * delta_time;
-    float newXPos = ship->transform.position.x + ship->velocity.x * SHIP_SPEED / ((ship->velocity.x < 0) ? 2 : 1) * delta_time;
+    float new_y_pos = ship->transform.position.y + ship->velocity.y * SHIP_SPEED * delta_time;
+    float new_x_pos = ship->transform.position.x + ship->velocity.x * SHIP_SPEED / ((ship->velocity.x < 0) ? 2 : 1) * delta_time;
     
-    if (newYPos + ship->collider.center.y - ship->collider.size.h / 2 >= 0 && newYPos + ship->collider.center.y + ship->collider.size.h / 2 <= WINDOW_HEIGHT)
+    if (new_y_pos + ship->collider.center.y - ship->collider.size.h / 2 >= 0 && new_y_pos + ship->collider.center.y + ship->collider.size.h / 2 <= WINDOW_HEIGHT)
     {
-        ship->transform.position.y = newYPos;
+        ship->transform.position.y = new_y_pos;
     }
-    if (newXPos + ship->collider.center.x - ship->collider.size.w / 2 >= 0 && newXPos + ship->collider.center.x + ship->collider.size.w / 2 <= WINDOW_WIDTH)
+    if (new_x_pos + ship->collider.center.x - ship->collider.size.w / 2 >= 0 && new_x_pos + ship->collider.center.x + ship->collider.size.w / 2 <= WINDOW_WIDTH)
     {
-        ship->transform.position.x = newXPos;
+        ship->transform.position.x = new_x_pos;
     }
 }
 
