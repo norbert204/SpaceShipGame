@@ -23,7 +23,7 @@
 #include "meteors.h"
 #include "missile.h"
 
-char working_directory[1000];
+char working_directory[FILENAME_MAX];
 
 #define MIN_FRAME_TIME 1000
 
@@ -130,7 +130,8 @@ void loop()
         //  Sprite Layer
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
         missile_render();
-        ship_render(&ship, tex_ship);
+        window_renderSprite(ship.transform.position, ship.sprite);
+        //ship_render(&ship, tex_ship);
 
         //  HUD Layer
         missile_renderHUD(tex_blank);
@@ -210,8 +211,6 @@ void get_working_dir(char *executableName)
         char tmp[FILENAME_MAX];
         GetCurrentDir(tmp, FILENAME_MAX);
 
-        printf("%s\n", tmp);
-
         strcpy(working_directory, tmp);
         strcat(working_directory, "/");
         strcat(working_directory, executableName);
@@ -236,7 +235,7 @@ int main(int argc, char* argv[])
         load_textures();
         
         background_init();
-        ship_init(&ship);
+        ship_init(&ship, tex_ship);
         meteors_init();
         missile_init();
 

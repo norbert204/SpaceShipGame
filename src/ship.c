@@ -1,8 +1,12 @@
 #include "ship.h"
 
-void ship_init(Ship *ship)
+void ship_init(Ship *ship, SDL_Texture *texture)
 {
     ship->transform = (Transform) {(Vector2D) {0, 720 / 2}, 1, 0};
+    ship->sprite = sprite_create(texture, 3, (Size2D) { 1024 / 4, 128 });
+    ship->sprite.animations[0] = (Animation) { false, 1, 1, 0 };
+    ship->sprite.animations[1] = (Animation) { false, 0, 1, 0 };
+    ship->sprite.animations[2] = (Animation) { false, 2, 1, 0 };
     ship->collider = (BoxCollider) { (Vector2D) { 1024 / 8 + 20, 64 }, (Size2D) { (1024 / 4) - 120 , 60 }};
 }
 
@@ -15,9 +19,11 @@ void ship_handleEvent(Ship *ship, SDL_Event *event)
             {
                 case SDLK_UP:
                     ship->velocity.y = -1;
+                    ship->sprite.currentAnimation = 1;
                     break;
                 case SDLK_DOWN:
                     ship->velocity.y = 1;
+                    ship->sprite.currentAnimation = 2;
                     break;
                 case SDLK_RIGHT:
                     ship->velocity.x = 1;
@@ -33,10 +39,12 @@ void ship_handleEvent(Ship *ship, SDL_Event *event)
                 case SDLK_UP:
                     if (ship->velocity.y < 0)
                         ship->velocity.y = 0;
+                    ship->sprite.currentAnimation = 0;
                     break;
                 case SDLK_DOWN:
                     if (ship->velocity.y > 0)
                         ship->velocity.y = 0;
+                    ship->sprite.currentAnimation = 0;
                     break;
                 case SDLK_RIGHT:
                     if (ship->velocity.x > 0)

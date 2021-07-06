@@ -72,6 +72,29 @@ void window_render(const Vector2D position, const Size2D sprite_size, SDL_Textur
     SDL_RenderCopyEx(renderer, texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
 
+void window_renderSprite(const Vector2D position, const Sprite sprite)
+{
+    SDL_Rect pos_rect;
+    pos_rect.x = position.x;
+    pos_rect.y = position.y;
+    pos_rect.w = sprite.tileSize.w;
+    pos_rect.h = sprite.tileSize.h;
+
+    SDL_Rect image_rect;
+    image_rect.x = sprite.animations[sprite.currentAnimation].startingFrame * sprite.tileSize.w;
+    image_rect.y = 0;
+    image_rect.w = sprite.tileSize.w;
+    image_rect.h = sprite.tileSize.h;
+
+    SDL_Point center;
+    center.x = sprite.tileSize.w / 2;
+    center.y = sprite.tileSize.h / 2;
+
+    SDL_SetTextureAlphaMod(sprite.texture, 255);
+    SDL_SetTextureColorMod(sprite.texture, 255, 255, 255);
+    SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
+}
+
 void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture)
 {
     SDL_Rect pos_rect;
