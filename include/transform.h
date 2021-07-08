@@ -10,6 +10,11 @@ typedef struct
 
 typedef struct
 {
+    int x, y;
+} Vector2Di;
+
+typedef struct
+{
     int w, h;
 } Size2D;
 

@@ -45,6 +45,7 @@ void handle_events(SDL_Event *event)
     {
         ship_handleEvents(&ship, event);
         missile_handleEvent(event, ship.transform.position);
+        
         switch (event->type)
         {
             case SDL_QUIT:

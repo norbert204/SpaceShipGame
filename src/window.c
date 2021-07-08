@@ -81,8 +81,9 @@ void window_renderSprite(const Vector2D position, const Sprite sprite)
     pos_rect.h = sprite.tile_size.h;
 
     SDL_Rect image_rect;
-    image_rect.x = sprite.animations[sprite.current_animation].starting_frame + sprite.animations[sprite.current_animation].current_frame * sprite.tile_size.w;
-    image_rect.y = 0;
+    Animation anim = sprite_getCurrentAnimation(sprite);
+    image_rect.x = anim.frames[anim.current_frame].x;
+    image_rect.y = anim.frames[anim.current_frame].y;
     image_rect.w = sprite.tile_size.w;
     image_rect.h = sprite.tile_size.h;
 

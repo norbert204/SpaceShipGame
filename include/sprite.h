@@ -12,7 +12,7 @@
 typedef struct
 {
     bool loop;
-    int starting_frame;
+    Vector2Di *frames;
     int frame_count;
     int current_frame;
     float speed;
@@ -32,6 +32,8 @@ typedef struct
 } Sprite;
 
 Sprite sprite_create(SDL_Texture *texture, const int number_of_animations, const Size2D tile_size);
+void sprite_createAnimation(Sprite *sprite, const int index, const bool loop, const float speed, const int number_of_frames, const Vector2Di frames[]);
+Animation sprite_getCurrentAnimation(const Sprite sprite);
 void sprite_update(Sprite *sprite);
 void sprite_destroy(Sprite *sprite);
 
