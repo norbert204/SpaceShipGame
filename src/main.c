@@ -16,6 +16,7 @@
 #include "draw.h"
 #include "window.h"
 #include "settings.h"
+#include "entity.h"
 #include "utilities.h"
 #include "transform.h"
 #include "ship.h"
@@ -36,8 +37,11 @@ SDL_Texture *tex_blank = NULL;
 SDL_Texture *tex_meteorite = NULL;
 SDL_Texture *tex_ship = NULL;
 SDL_Texture *tex_background = NULL;
+SDL_Texture *tex_test = NULL;
 
 Ship ship;
+
+EntityList list;
 
 void handle_events(SDL_Event *event)
 {
@@ -128,6 +132,7 @@ void loop()
         missile_render();
         window_renderSprite(ship.transform.position, ship.sprite);
         //ship_render(&ship, tex_ship);
+        window_renderSprite(list->item.transform->position, (*list->item.sprite));
 
         //  HUD Layer
         missile_renderHUD(tex_blank);
@@ -178,6 +183,7 @@ void load_textures()
     tex_meteorite = window_loadTexture("res/bigrock.png");
     tex_ship = window_loadTexture("res/ship.png");
     tex_background = window_loadTexture("res/back.png");
+    tex_test = window_loadTexture("res/dio.png");
 }
 
 void destroy_textures()
@@ -186,10 +192,14 @@ void destroy_textures()
     tex_meteorite = window_destroyTexture(tex_meteorite);
     tex_ship = window_destroyTexture(tex_ship);
     tex_background = window_destroyTexture(tex_background);
+    tex_test = window_destroyTexture(tex_background);
 }
 
 void stop_game()
 {
+    //TODO: move this from here
+    sprite_destroy(&ship.sprite);
+
     destroy_textures();
     window_stop();
 }
@@ -229,7 +239,6 @@ int main(int argc, char* argv[])
         settings_load(&settings, working_directory);
 
         load_textures();
-        
         background_init();
         ship_init(&ship, tex_ship);
         meteors_init();

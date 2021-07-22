@@ -1,0 +1,15 @@
+Plan
+- Entity Component System
+    - Entity
+        * Stored in LinkedList
+        * Based on MegaStruct type
+    - Component
+        * Every Component has an array of said components (so we have the advantage of speed of an ECS)
+        * One element of the array links back to it's Entity (by ID mybe)
+    - System
+        * (yes..)
+- Scenes
+    - Scenes have a unique entity LinkedList
+
+TODO
+- Sound system
