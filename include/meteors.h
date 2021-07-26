@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "structs.h"
 #include "transform.h"
 #include "collision.h"
 #include "window.h"

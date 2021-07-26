@@ -3,20 +3,9 @@
 
 #include <stdio.h>
 
-typedef struct
-{
-    float x, y;
-} Vector2D;
+#include "structs.h"
 
-typedef struct
-{
-    int x, y;
-} Vector2Di;
-
-typedef struct
-{
-    int w, h;
-} Size2D;
+#define TRANSFORM_ZERO (Transform) { VECTOR2D_ZERO, 1, 0 }
 
 typedef struct
 {
@@ -25,12 +14,8 @@ typedef struct
     double angle;
 } Transform;
 
-typedef struct
-{
-    int r, g, b, a;
-} Color;
-
-Vector2D vector2D_zero();
-Transform transform_zero();
+extern Transform *transform_list;
+static int list_length;
+static int list_capacity;
 
 #endif

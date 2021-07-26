@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "structs.h"
 #include "transform.h"
 #include "collision.h"
 #include "draw.h"

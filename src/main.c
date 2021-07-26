@@ -39,8 +39,8 @@ SDL_Texture *tex_ship = NULL;
 SDL_Texture *tex_background = NULL;
 SDL_Texture *tex_test = NULL;
 
+//  Temporary
 Ship ship;
-
 EntityList list;
 
 void handle_events(SDL_Event *event)
@@ -73,7 +73,7 @@ void loop()
     int update_delay = 10;
 
     //  TODO: Move it to meteors.c
-    float meteorSpawnTimer = 3;
+    float meteor_spawn_timer = 3;
 
     bool colliding = false;
 
@@ -95,11 +95,11 @@ void loop()
             background_update();
             
             //  TODO: move this from here
-            meteorSpawnTimer -= delta_time;
-            if (meteorSpawnTimer < 0)
+            meteor_spawn_timer -= delta_time;
+            if (meteor_spawn_timer < 0)
             {
                 meteors_add();
-                meteorSpawnTimer = .5f;
+                meteor_spawn_timer = .5f;
             }
             
             meteors_update();
@@ -131,8 +131,7 @@ void loop()
         meteors_render(tex_meteorite, (Size2D) { 64, 64 });
         missile_render();
         window_renderSprite(ship.transform.position, ship.sprite);
-        //ship_render(&ship, tex_ship);
-        window_renderSprite(list->item.transform->position, (*list->item.sprite));
+        window_renderEntityList(list);
 
         //  HUD Layer
         missile_renderHUD(tex_blank);
@@ -206,8 +205,6 @@ void stop_game()
 
 void get_working_dir(char *executableName)
 {
-    //  TODO: make a windows version of this
-
     if (executableName[0] == '/')
     {
         strcpy(working_directory, executableName);

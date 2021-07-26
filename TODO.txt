@@ -12,4 +12,9 @@ Plan
     - Scenes have a unique entity LinkedList
 
 TODO
+- Finish ECS
+- There are a bunch of mallocs..but where are the frees?
 - Sound system
+- Texture manager
+- Clear up the render methods
+- REFACTOR

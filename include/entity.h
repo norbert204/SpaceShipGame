@@ -28,7 +28,7 @@ typedef EntityListItem * EntityList;
 
 Entity entity_create();
 void entity_add(EntityList *list, Entity entity);
-void entity_delete(EntityList list, int id);
-void *entity_clear(EntityList list);
+void entity_delete(EntityList *list, int id);
+void *entity_clear(EntityList *list);
 
 #endif

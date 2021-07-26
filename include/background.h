@@ -8,6 +8,7 @@
 
 #include "window.h"
 #include "utilities.h"
+#include "structs.h"
 
 #define BG_TARGET_POS WINDOW_WIDTH
 

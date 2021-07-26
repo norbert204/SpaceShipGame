@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 
+#include "structs.h"
 #include "window.h"
 #include "transform.h"
 #include "collision.h"

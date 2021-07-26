@@ -8,6 +8,7 @@ Entity entity_create()
     tmp.id = id;
     tmp.transform = NULL;
     tmp.sprite = NULL;
+    //  Yes this is ugly 
     tmp.box_collider = NULL;
     tmp.circle_collider = NULL;
 
@@ -42,9 +43,9 @@ void entity_add(EntityList *list, Entity entity)
     }
 }
 
-void entity_delete(EntityList list, int id)
+void entity_delete(EntityList *list, int id)
 {
-    EntityListItem *tmp = list;
+    EntityListItem *tmp = *list;
     while (tmp->item.id != id && tmp != NULL)
     {
         tmp = tmp->next;
@@ -61,9 +62,9 @@ void entity_delete(EntityList list, int id)
     }
 }
 
-void *entity_clear(EntityList list)
+void * entity_clear(EntityList *list)
 {
-    EntityListItem *tmp = list;
+    EntityListItem *tmp = *list;
     while (tmp->next != NULL)
     {
         tmp = tmp->next;
@@ -76,7 +77,8 @@ void *entity_clear(EntityList list)
         tmp->next = NULL;
     }
 
-    free(list);
+    free(*list);
+    *list = NULL;
 
     return NULL;
 }

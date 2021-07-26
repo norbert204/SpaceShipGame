@@ -6,7 +6,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "transform.h"
+#include "structs.h"
 #include "utilities.h"
 
 typedef struct
@@ -20,6 +20,8 @@ typedef struct
 
 typedef struct 
 {
+    //Entity *entity;
+
     SDL_Texture *texture;
 
     Animation *animations;

@@ -96,6 +96,38 @@ void window_renderSprite(const Vector2D position, const Sprite sprite)
     SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
 
+void window_renderEntityList(const EntityList list)
+{
+    EntityListItem *item = list;
+    while (item != NULL)
+    {
+        if (item->item.transform != NULL && item->item.sprite != NULL)
+        {
+            SDL_Rect pos_rect;
+            pos_rect.x = item->item.transform->position.x;
+            pos_rect.y = item->item.transform->position.y;
+            pos_rect.w = item->item.sprite->tile_size.w * item->item.transform->scale;
+            pos_rect.h = item->item.sprite->tile_size.h * item->item.transform->scale;
+
+            SDL_Rect image_rect;
+            Animation anim = sprite_getCurrentAnimation(*item->item.sprite);
+            image_rect.x = anim.frames[anim.current_frame].x;
+            image_rect.y = anim.frames[anim.current_frame].y;
+            image_rect.w = item->item.sprite->tile_size.w;
+            image_rect.h = item->item.sprite->tile_size.h;
+
+            SDL_Point center;
+            center.x = item->item.sprite->tile_size.w * item->item.transform->scale / 2;
+            center.y = item->item.sprite->tile_size.h * item->item.transform->scale / 2;
+
+            SDL_SetTextureAlphaMod(item->item.sprite->texture, 255);
+            SDL_SetTextureColorMod(item->item.sprite->texture, 255, 255, 255);
+            SDL_RenderCopyEx(renderer, item->item.sprite->texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
+        }
+        item = item->next;
+    }
+}
+
 void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture)
 {
     SDL_Rect pos_rect;

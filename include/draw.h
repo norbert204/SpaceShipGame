@@ -1,7 +1,7 @@
 #ifndef DRAW_H
 #define DRAW_H
 
-#include "transform.h"
+#include "structs.h"
 #include "window.h"
 #include "mathe.h"
 
