@@ -1,4 +1,4 @@
-#include "ship.h"
+/*#include "ship.h"
 
 void ship_init(Ship *ship, SDL_Texture *texture)
 {
@@ -19,55 +19,7 @@ void ship_init(Ship *ship, SDL_Texture *texture)
 
 void ship_handleEvents(Ship *ship, SDL_Event *event)
 {
-    switch (event->type)
-    {
-        case SDL_KEYDOWN:
-            switch (event->key.keysym.sym)
-            {
-                case SDLK_UP:
-                    ship->velocity.y = -1;
-                    ship->sprite.current_animation = 1;
-                    break;
-                case SDLK_DOWN:
-                    ship->velocity.y = 1;
-                    ship->sprite.current_animation = 2;
-                    break;
-                case SDLK_RIGHT:
-                    ship->velocity.x = 1;
-                    break;
-                case SDLK_LEFT:
-                    ship->velocity.x = -1;
-                    break;
-            }
-            break;
-        case SDL_KEYUP:
-            switch (event->key.keysym.sym)
-            {
-                case SDLK_UP:
-                    if (ship->velocity.y < 0)
-                    {
-                        ship->velocity.y = 0;
-                        ship->sprite.current_animation = 0;
-                    }
-                    break;
-                case SDLK_DOWN:
-                    if (ship->velocity.y > 0)
-                    {
-                        ship->velocity.y = 0;
-                        ship->sprite.current_animation = 0;
-                    }
-                    break;
-                case SDLK_RIGHT:
-                    if (ship->velocity.x > 0)
-                        ship->velocity.x = 0;
-                    break;
-                case SDLK_LEFT:
-                    if (ship->velocity.x < 0)
-                        ship->velocity.x = 0;
-                    break;
-            }
-            break;
-    }
+    
 }
 
 void ship_update(Ship *ship)
@@ -88,4 +40,4 @@ void ship_update(Ship *ship)
 void ship_render(Ship *ship, SDL_Texture *texture)
 {
     window_renderTransform(ship->transform, (Size2D) { 1024 / 4, 128 }, texture);
-}
+}*/

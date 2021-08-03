@@ -1,4 +1,4 @@
-#include "window.h"
+#include "engine/window.h"
 
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -71,8 +71,29 @@ void window_render(const Vector2D position, const Size2D sprite_size, SDL_Textur
     SDL_SetTextureColorMod(texture, 255, 255, 255);
     SDL_RenderCopyEx(renderer, texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
+void window_renderSprite(const Transform transform, const Sprite sprite)
+{
+    SDL_Rect pos_rect;
+    pos_rect.x = transform.position.x;
+    pos_rect.y = transform.position.y;
+    pos_rect.w = sprite.tile_size.w * transform.scale;
+    pos_rect.h = sprite.tile_size.h * transform.scale;
 
-void window_renderSprite(const Vector2D position, const Sprite sprite)
+    SDL_Rect image_rect;
+    image_rect.x = sprite.animations[sprite.current_animation].frames[sprite.animations[sprite.current_animation].current_frame].x;
+    image_rect.y = sprite.animations[sprite.current_animation].frames[sprite.animations[sprite.current_animation].current_frame].y;
+    image_rect.w = sprite.tile_size.w;
+    image_rect.h = sprite.tile_size.h;
+
+    SDL_Point center;
+    center.x = sprite.tile_size.w * transform.scale / 2;
+    center.y = sprite.tile_size.h * transform.scale / 2;
+
+    SDL_SetTextureAlphaMod(sprite.texture, 255);
+    SDL_SetTextureColorMod(sprite.texture, 255, 255, 255);
+    SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, transform.angle, &center, SDL_FLIP_NONE);
+}
+/*void window_renderSprite(const Vector2D position, const Sprite sprite)
 {
     SDL_Rect pos_rect;
     pos_rect.x = position.x;
@@ -96,7 +117,7 @@ void window_renderSprite(const Vector2D position, const Sprite sprite)
     SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
 
-void window_renderEntityList(const EntityList list)
+/*void window_renderEntityList(const EntityList list)
 {
     EntityListItem *item = list;
     while (item != NULL)
@@ -126,9 +147,9 @@ void window_renderEntityList(const EntityList list)
         }
         item = item->next;
     }
-}
+}*/
 
-void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture)
+/*void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture)
 {
     SDL_Rect pos_rect;
     pos_rect.x = transform.position.x;
@@ -149,7 +170,7 @@ void window_renderTransform(const Transform transform, const Size2D sprite_size,
     SDL_SetTextureAlphaMod(texture, 255);
     SDL_SetTextureColorMod(texture, 255, 255, 255);
     SDL_RenderCopyEx(renderer, texture, &image_rect, &pos_rect, transform.angle, &center, SDL_FLIP_NONE);
-}
+}*/
 
 void window_renderEx(const Vector2D position, const Size2D sprite_size, const Size2D target_size, double angle, Color color, SDL_Texture *texture)
 {

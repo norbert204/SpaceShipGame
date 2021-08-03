@@ -2,7 +2,7 @@
 #define MISSILE_H
 
 #include <SDL2/SDL.h>
-
+/*
 #include "structs.h"
 #include "transform.h"
 #include "collision.h"
@@ -32,5 +32,5 @@ void missile_update();
 void missile_render();
 void missile_renderHUD(SDL_Texture *tex_blank);
 void missile_delete(int id);
-
+*/
 #endif

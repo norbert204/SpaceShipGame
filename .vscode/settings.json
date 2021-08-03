@@ -7,6 +7,21 @@
         "random": "c",
         "window.h": "c",
         "meteors.h": "c",
-        "dirent.h": "c"
+        "dirent.h": "c",
+        "list": "c",
+        "system_sprite.h": "c",
+        "structs.h": "c",
+        "draw.h": "c",
+        "settings.h": "c",
+        "entity.h": "c",
+        "sdl.h": "c",
+        "component_sprite.h": "c",
+        "array": "c",
+        "hash_map": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "valarray": "c"
     }
 }

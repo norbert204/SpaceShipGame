@@ -1,4 +1,4 @@
-#include "missile.h"
+/*#include "missile.h"
 
 Missile missiles[MISSILE_MAX];
 int missiles_top;
@@ -102,4 +102,4 @@ void missile_delete(int id)
 
         missiles_top--;
     }
-}
+}*/

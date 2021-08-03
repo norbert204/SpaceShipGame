@@ -3,6 +3,9 @@ Plan
     - Entity
         * Stored in LinkedList
         * Based on MegaStruct type
+            - Transform
+            - Sprite
+            - Collider
     - Component
         * Every Component has an array of said components (so we have the advantage of speed of an ECS)
         * One element of the array links back to it's Entity (by ID mybe)
@@ -18,3 +21,7 @@ TODO
 - Texture manager
 - Clear up the render methods
 - REFACTOR
+    * mathe.h
+    * structs.h
+    * utilities.h
+    * window.h

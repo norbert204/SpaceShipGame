@@ -1,5 +1,4 @@
-#include "collision.h"
-
+#include "systems/system_collider.h"
 /*
     https://www.lazyfoo.net/tutorials/SDL/29_circular_collision_detection/index.php
 */

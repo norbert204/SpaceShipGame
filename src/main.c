@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 #if defined(_WIN32) || defined(WIN32)
 #include <direct.h>
@@ -13,17 +14,26 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "draw.h"
-#include "window.h"
-#include "settings.h"
+#include "engine/draw.h"
+#include "engine/window.h"
+#include "engine/settings.h"
+#include "engine/utilities.h"
+#include "engine/inputs.h"
+
 #include "entity.h"
-#include "utilities.h"
+
+#include "systems/system_player.h"
+#include "systems/system_sprite.h"
+#include "systems/system_rigidbody.h"
+#include "systems/system_meteors.h"
+#include "background.h"
+
+/*#include "entity.h"
 #include "transform.h"
 #include "ship.h"
-#include "background.h"
 #include "meteors.h"
 #include "missile.h"
-
+*/
 char working_directory[FILENAME_MAX];
 
 #define MIN_FRAME_TIME 1000
@@ -40,21 +50,19 @@ SDL_Texture *tex_background = NULL;
 SDL_Texture *tex_test = NULL;
 
 //  Temporary
-Ship ship;
 EntityList list;
 
 void handle_events(SDL_Event *event)
 {
     while (SDL_PollEvent(event) != 0)
     {
-        ship_handleEvents(&ship, event);
-        missile_handleEvent(event, ship.transform.position);
-        
-        switch (event->type)
+        if (event->type == SDL_QUIT)
         {
-            case SDL_QUIT:
-                stop = true;
-                break;
+            stop = true;
+        }
+        else
+        {
+            keyboard_handleEvents(event);
         }
     }
 }
@@ -72,11 +80,6 @@ void loop()
     //  If we don't delay the updates when starting the game, the background will be buggy
     int update_delay = 10;
 
-    //  TODO: Move it to meteors.c
-    float meteor_spawn_timer = 3;
-
-    bool colliding = false;
-
     while (!stop)
     {
         frame_time = SDL_GetTicks();
@@ -91,32 +94,33 @@ void loop()
         //
         if (update_delay == 0)
         {
-            ship_update(&ship);
+            //ship_update(&ship);
             background_update();
-            
-            //  TODO: move this from here
-            meteor_spawn_timer -= delta_time;
-            if (meteor_spawn_timer < 0)
-            {
-                meteors_add();
-                meteor_spawn_timer = .5f;
-            }
-            
-            meteors_update();
-            missile_update();
-
-            //  TODO: move this from here
-            for (int i = 0; i < meteors_top; i++)
-            {
-                colliding = colliding_circle_box(meteors[i].transform, ship.transform, meteors[i].collider, ship.collider);
-
-                if (colliding)
-                    break;
-            }
         }
         else
         {
             update_delay--;
+        }
+
+        //  TODO: move this to scene manager
+        meteors_update(&list, tex_meteorite);
+
+        EntityListItem *tmp = list;
+        while (tmp != NULL)
+        {
+            if (tmp->item.components.transform != NULL)
+            {
+                if (tmp->item.components.sprite != NULL)
+                    sprite_update(&tmp->item);
+
+                if (tmp->item.type == player)
+                    player_update(&tmp->item);
+
+                if (tmp->item.components.rigidbody != NULL)
+                    rigidbody_update(&tmp->item);
+            }
+            
+            tmp = tmp->next;
         }
 
         //
@@ -128,13 +132,10 @@ void loop()
         background_render(tex_background);
        
         //  Sprite Layer
-        meteors_render(tex_meteorite, (Size2D) { 64, 64 });
-        missile_render();
-        window_renderSprite(ship.transform.position, ship.sprite);
-        window_renderEntityList(list);
+        sprite_render(list);
 
         //  HUD Layer
-        missile_renderHUD(tex_blank);
+        //missile_renderHUD(tex_blank);
 
         window_display();
 
@@ -197,7 +198,7 @@ void destroy_textures()
 void stop_game()
 {
     //TODO: move this from here
-    sprite_destroy(&ship.sprite);
+    //sprite_destroy(&ship.sprite);
 
     destroy_textures();
     window_stop();
@@ -233,13 +234,13 @@ int main(int argc, char* argv[])
     {
         srand(time(NULL));
         
-        settings_load(&settings, working_directory);
+        list = NULL;
 
+        settings_load(&settings, working_directory);
         load_textures();
+
         background_init();
-        ship_init(&ship, tex_ship);
         meteors_init();
-        missile_init();
 
         loop();
     }

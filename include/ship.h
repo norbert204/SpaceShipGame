@@ -2,7 +2,7 @@
 #define SHIP_H
 
 #include <stdbool.h>
-
+/*
 #include "structs.h"
 #include "window.h"
 #include "transform.h"
@@ -25,5 +25,5 @@ void ship_init(Ship *ship, SDL_Texture *texture);
 void ship_handleEvents(Ship *ship, SDL_Event *event);
 void ship_update(Ship *ship);
 void ship_render(Ship *ship, SDL_Texture *texture);
-
+*/
 #endif

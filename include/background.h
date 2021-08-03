@@ -6,9 +6,9 @@
 
 #include <SDL2/SDL.h>
 
-#include "window.h"
-#include "utilities.h"
-#include "structs.h"
+#include "engine/window.h"
+#include "engine/utilities.h"
+#include "engine/structs.h"
 
 #define BG_TARGET_POS WINDOW_WIDTH
 

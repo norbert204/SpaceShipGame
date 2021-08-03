@@ -12,9 +12,9 @@
 #include <SDL2/SDL_image.h>
 
 #include "structs.h"
-#include "transform.h"
 #include "draw.h"
-#include "sprite.h"
+#include "../components/component_sprite.h"
+#include "../components/component_transform.h"
 #include "entity.h"
 
 extern SDL_Window *window;
@@ -27,9 +27,9 @@ bool window_init();
 void window_clear();
 
 void window_render(const Vector2D position, const Size2D sprite_size, SDL_Texture *texture);
-void window_renderSprite(const Vector2D position, const Sprite sprite);
-void window_renderEntityList(const EntityList list);
-void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture);
+void window_renderSprite(const Transform transform, const Sprite sprite);
+//void window_renderEntityList(const EntityList list);
+//void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture);
 void window_renderEx(const Vector2D position, const Size2D sprite_size, const Size2D target_size, double angle, Color color, SDL_Texture *texture);
 
 SDL_Texture * window_loadTexture(const char *path);
