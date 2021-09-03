@@ -1,5 +1,7 @@
 #include "entity.h"
 
+int entity_count = 0;
+
 Entity entity_create()
 {
     static unsigned long next_id = 0;
@@ -83,9 +85,11 @@ void entity_addToList(EntityList *list, const Entity entity)
         new->next = NULL;
         new->item = entity;
     }
+
+    entity_count++;
 }
 
-void entity_delete(EntityList *list, Entity *entity)
+void entity_delete(EntityList *list, unsigned long id)
 {
     if (*list == NULL)
     {
@@ -94,10 +98,11 @@ void entity_delete(EntityList *list, Entity *entity)
     else
     {
         EntityListItem *tmp = *list;
-        while (tmp != NULL && tmp->item.id != entity->id)
+        while (tmp != NULL && tmp->item.id != id)
         {
             tmp = tmp->next;
         }
+
 
         if (tmp == NULL)
         {
@@ -110,42 +115,52 @@ void entity_delete(EntityList *list, Entity *entity)
             if (tmp->next != NULL)
                 tmp->next->prev = tmp->prev;
 
-            if (entity->components.transform != NULL)
+            if (tmp->item.components.transform != NULL)
             {
-                free(entity->components.transform);
-                entity->components.transform = NULL;
+                free(tmp->item.components.transform);
+                tmp->item.components.transform = NULL;
             }
 
-            if (entity->components.sprite != NULL)
+            if (tmp->item.components.sprite != NULL)
             {
-                for (int i = 0; i < entity->components.sprite->number_of_animations; i++)
+                for (int i = 0; i < tmp->item.components.sprite->number_of_animations; i++)
                 {
-                    free(entity->components.sprite->animations[i].frames);
+                    free(tmp->item.components.sprite->animations[i].frames);
                 }
-                free(entity->components.sprite->animations);
-                free(entity->components.sprite);
-                entity->components.sprite = NULL;
+                free(tmp->item.components.sprite->animations);
+                free(tmp->item.components.sprite);
+                tmp->item.components.sprite = NULL;
             }
 
-            if (entity->components.box_collider != NULL)
+            if (tmp->item.components.box_collider != NULL)
             {
-                free(entity->components.box_collider);
-                entity->components.box_collider = NULL;
+                free(tmp->item.components.box_collider);
+                tmp->item.components.box_collider = NULL;
             }
 
-            if (entity->components.circle_collider != NULL)
+            if (tmp->item.components.circle_collider != NULL)
             {
-                free(entity->components.circle_collider);
-                entity->components.circle_collider = NULL;
+                free(tmp->item.components.circle_collider);
+                tmp->item.components.circle_collider = NULL;
             }
 
-            if (entity->components.rigidbody != NULL)
+            if (tmp->item.components.rigidbody != NULL)
             {
-                free(entity->components.rigidbody);
-                entity->components.rigidbody = NULL;
+                free(tmp->item.components.rigidbody);
+                tmp->item.components.rigidbody = NULL;
             }
-
-            free(tmp);
+            
+            if (id == (*list)->item.id)
+            {
+                *list = (*list)->next;
+                free(tmp);
+            }
+            else 
+            {
+                free(tmp);
+            }
         }
+
+        entity_count--;
     }
 }

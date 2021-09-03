@@ -26,8 +26,22 @@ void meteors_update(EntityList *list, SDL_Texture *texture)
         tmp.components.rigidbody->velocity = (Vector2D) { -1, 0 };
         tmp.components.rigidbody->speed = METEOR_SPEED;
 
+        tmp.type = meteor;
+
         entity_addToList(list, tmp);
 
         meteor_spawn_timer += METEOR_SPAWN_TIME;
     }
+}
+
+int meteors_updateEntity(EntityList *list, Entity *entity)
+{
+    if (entity->components.transform->position.x < -256)
+    {
+        entity_delete(list, entity->id);
+        return 1;
+    }
+    
+    entity->components.transform->angle -= 100 * delta_time;   
+    return 0;
 }

@@ -28,12 +28,6 @@
 #include "systems/system_meteors.h"
 #include "background.h"
 
-/*#include "entity.h"
-#include "transform.h"
-#include "ship.h"
-#include "meteors.h"
-#include "missile.h"
-*/
 char working_directory[FILENAME_MAX];
 
 #define MIN_FRAME_TIME 1000
@@ -56,13 +50,55 @@ void handle_events(SDL_Event *event)
 {
     while (SDL_PollEvent(event) != 0)
     {
-        if (event->type == SDL_QUIT)
+        switch (event->type)
         {
-            stop = true;
-        }
-        else
-        {
-            keyboard_handleEvents(event);
+            case SDL_QUIT:
+                stop = true;
+                break;
+            case SDL_KEYDOWN:
+                switch (event->key.keysym.sym)
+                {
+                    case SDLK_e:
+                        EntityListItem *tmp = list;
+                        while (tmp != NULL)
+                        {
+                            printf("Entity %d:\n", tmp->item.id);
+                            printf("\tType: %d\n", tmp->item.type);
+                            printf("\tTransform: %s\n", (tmp->item.components.transform != NULL) ? "yes" : "no");
+                            printf("\tSprite: %s\n", (tmp->item.components.sprite != NULL) ? "yes" : "no");
+                            printf("\tBoxCollider: %s\n",  (tmp->item.components.box_collider != NULL) ? "yes" : "no");
+                            printf("\tCircleCollider: %s\n",  (tmp->item.components.circle_collider != NULL) ? "yes" : "no");
+                            printf("\tRigidbody: %s\n",  (tmp->item.components.rigidbody != NULL) ? "yes" : "no");
+
+                            tmp = tmp->next;
+                        }
+                        printf("\n");
+                        break;
+                    case SDLK_d:
+                        if (list != NULL)
+                        {
+                            EntityListItem *tmp = list;
+                            while (tmp->next != NULL)
+                            {
+                                tmp = tmp->next;
+                            }
+                            while (tmp != NULL)
+                            {
+                                if (tmp->prev != NULL)
+                                {
+                                    tmp = tmp->prev;
+                                    entity_delete(&list, tmp->next->item.id);
+                                }
+                                else 
+                                {
+                                    entity_delete(&list, tmp->item.id);
+                                    tmp = NULL;
+                                }
+                            }
+                        }
+                        break;
+                }
+                break;
         }
     }
 }
@@ -92,6 +128,8 @@ void loop()
         //
         //  Update
         //
+        keyboard_update();
+
         if (update_delay == 0)
         {
             //ship_update(&ship);
@@ -113,8 +151,23 @@ void loop()
                 if (tmp->item.components.sprite != NULL)
                     sprite_update(&tmp->item);
 
-                if (tmp->item.type == player)
-                    player_update(&tmp->item);
+                
+                switch (tmp->item.type)
+                {
+                    case player:
+                        player_update(&tmp->item);
+                        break;
+                    
+                    case meteor:
+                        EntityListItem *tmp1 = tmp->next;
+
+                        if (meteors_updateEntity(&list, &tmp->item))
+                        {
+                            tmp = tmp1;
+                            continue;
+                        }
+                        break;
+                }
 
                 if (tmp->item.components.rigidbody != NULL)
                     rigidbody_update(&tmp->item);
@@ -164,10 +217,15 @@ void loop()
 
                 char title[100] = "SpaceShipGame - ";
                 char fps_str[5];
+                char entity_str[5];
 
                 sprintf(fps_str, "%d", fps);
+                sprintf(entity_str, "%d", entity_count);
+
                 strcat(title, fps_str);
-                strcat(title, " FPS");
+                strcat(title, " FPS | ");
+                strcat(title, entity_str);
+                strcat(title, " Entities");
 
                 SDL_SetWindowTitle(window_getWindow(), title);
 

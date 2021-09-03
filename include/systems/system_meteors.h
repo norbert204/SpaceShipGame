@@ -14,5 +14,6 @@
 
 void meteors_init();
 void meteors_update(EntityList *list, SDL_Texture *texture);
+int meteors_updateEntity(EntityList *list, Entity *entity);
 
 #endif

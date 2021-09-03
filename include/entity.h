@@ -10,6 +10,10 @@
 #include "components/component_collider.h"
 #include "components/component_rigidbody.h"
 
+#define MAX_ENTITIES 5000
+
+extern int entity_count;
+
 //  https://prdeving.wordpress.com/2018/06/27/videogames-programming-ecs-system-in-plain-c/
 
 enum EntityType
@@ -55,6 +59,6 @@ void entity_addRigidbodyComponent(Entity *entity);
 
 void entity_addToList(EntityList *list, const Entity entity);
 
-void entity_delete(EntityList *list, Entity *entity);
+void entity_delete(EntityList *list, unsigned long id);
 
 #endif

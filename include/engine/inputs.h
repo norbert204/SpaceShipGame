@@ -9,7 +9,8 @@
 
 void keyboard_init();
 void keyboard_handleEvents(SDL_Event *event);
-bool keyboard_getKey(int keycode);
+void keyboard_update();
+bool keyboard_getKey(int scancode);
 int keyboard_getAxisX();
 int keyboard_getAxisY();
 

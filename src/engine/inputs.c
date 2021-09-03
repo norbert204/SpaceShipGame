@@ -1,6 +1,6 @@
 #include "engine/inputs.h"
 
-static bool keys[NUMBER_OF_KEYDOWN_EVENTS];
+static u_int8_t *keys;
 static int axis_x;
 static int axis_y;
 
@@ -14,14 +14,12 @@ void keyboard_init()
     axis_x = 0;
     axis_y = 0;
 }
-
+/*
 void keyboard_handleEvents(SDL_Event *event)
 {
     switch (event->type)
     {
         case SDL_KEYDOWN:
-            keys[event->key.keysym.sym] = true;
-
             switch (event->key.keysym.sym)
             {
                 case SDLK_UP:
@@ -37,12 +35,11 @@ void keyboard_handleEvents(SDL_Event *event)
                     axis_x = 1;
                     break;
                 default:
+                    keys[event->key.keysym.sym] = true;
                     break;
             }
             break;
         case SDL_KEYUP:
-            keys[event->key.keysym.sym] = false;
-
             switch (event->key.keysym.sym)
             {
                 case SDLK_UP:
@@ -70,23 +67,58 @@ void keyboard_handleEvents(SDL_Event *event)
                         axis_x = 0;
                     break;
                 default:
+                    keys[event->key.keysym.sym] = false;
                     break;
             }
             break;
         default:
             break;
     }
+}*/
+
+void keyboard_update()
+{
+    keys = SDL_GetKeyboardState(NULL);
+
+    //  This needs some optimizing
+
+    if (keys[SDL_SCANCODE_LEFT])
+    {
+        axis_x = -1;
+    }
+    else if (keys[SDL_SCANCODE_RIGHT])
+    {
+        axis_x = 1;
+    }
+    else
+    {
+        axis_x = 0;
+    }
+
+    if (keys[SDL_SCANCODE_UP])
+    {
+        axis_y = -1;
+    }
+    else if (keys[SDL_SCANCODE_DOWN])
+    {
+        axis_y = 1;
+    }
+    else
+    {
+        axis_y = 0;
+    }
 }
 
-bool keyboard_getKey(int keycode)
+bool keyboard_getKey(int scancode)
 {
+    /*
     if (keycode >= 322 || keycode < 0)
     {
         fprintf(stderr, "[Engine] Keycode %d doesn't exist!\n", keycode);
         return 0;
     }
-
-    return keys[keycode];
+    */
+    return keys[scancode];
 }
 
 int keyboard_getAxisX()
