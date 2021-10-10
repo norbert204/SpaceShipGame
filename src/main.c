@@ -17,8 +17,9 @@
 #include "engine/draw.h"
 #include "engine/window.h"
 #include "engine/settings.h"
-#include "engine/utilities.h"
+#include "engine/time.h"
 #include "engine/inputs.h"
+#include "engine/textures.h"
 
 #include "entity.h"
 
@@ -28,6 +29,8 @@
 #include "systems/system_meteors.h"
 #include "background.h"
 
+#include "scene.h"
+
 char working_directory[FILENAME_MAX];
 
 #define MIN_FRAME_TIME 1000
@@ -35,16 +38,6 @@ char working_directory[FILENAME_MAX];
 bool stop = false;
 
 Settings settings;
-
-//  TODO: implement a proper texture manager
-SDL_Texture *tex_blank = NULL;
-SDL_Texture *tex_meteorite = NULL;
-SDL_Texture *tex_ship = NULL;
-SDL_Texture *tex_background = NULL;
-SDL_Texture *tex_test = NULL;
-
-//  Temporary
-EntityList list;
 
 void handle_events(SDL_Event *event)
 {
@@ -55,7 +48,7 @@ void handle_events(SDL_Event *event)
             case SDL_QUIT:
                 stop = true;
                 break;
-            case SDL_KEYDOWN:
+            /*case SDL_KEYDOWN:
                 switch (event->key.keysym.sym)
                 {
                     case SDLK_e:
@@ -98,7 +91,7 @@ void handle_events(SDL_Event *event)
                         }
                         break;
                 }
-                break;
+                break;*/
         }
     }
 }
@@ -119,7 +112,7 @@ void loop()
     while (!stop)
     {
         frame_time = SDL_GetTicks();
-        delta_time = ((float)frame_time - (float)last_frame) / 1000;
+        time_setDeltaTime(((float)frame_time - (float)last_frame) / 1000);
         //
         //  Handle events
         //
@@ -140,41 +133,7 @@ void loop()
             update_delay--;
         }
 
-        //  TODO: move this to scene manager
-        meteors_update(&list, tex_meteorite);
-
-        EntityListItem *tmp = list;
-        while (tmp != NULL)
-        {
-            if (tmp->item.components.transform != NULL)
-            {
-                if (tmp->item.components.sprite != NULL)
-                    sprite_update(&tmp->item);
-
-                
-                switch (tmp->item.type)
-                {
-                    case player:
-                        player_update(&tmp->item);
-                        break;
-                    
-                    case meteor:
-                        EntityListItem *tmp1 = tmp->next;
-
-                        if (meteors_updateEntity(&list, &tmp->item))
-                        {
-                            tmp = tmp1;
-                            continue;
-                        }
-                        break;
-                }
-
-                if (tmp->item.components.rigidbody != NULL)
-                    rigidbody_update(&tmp->item);
-            }
-            
-            tmp = tmp->next;
-        }
+        scene_update();
 
         //
         //  Render
@@ -182,10 +141,10 @@ void loop()
         window_clear();
         
         //  Background Layer
-        background_render(tex_background);
+        background_render();
        
         //  Sprite Layer
-        sprite_render(list);
+        sprite_render(scene_getCurrentScene()->entities);
 
         //  HUD Layer
         //missile_renderHUD(tex_blank);
@@ -237,20 +196,9 @@ void loop()
 
 void load_textures()
 {
-    tex_blank = window_loadTexture("res/blank.png");
-    tex_meteorite = window_loadTexture("res/bigrock.png");
-    tex_ship = window_loadTexture("res/ship.png");
-    tex_background = window_loadTexture("res/back.png");
-    tex_test = window_loadTexture("res/dio.png");
-}
-
-void destroy_textures()
-{
-    tex_blank = window_destroyTexture(tex_blank);
-    tex_meteorite = window_destroyTexture(tex_meteorite);
-    tex_ship = window_destroyTexture(tex_ship);
-    tex_background = window_destroyTexture(tex_background);
-    tex_test = window_destroyTexture(tex_background);
+    textures_load("res/bigrock.png", "meteor");
+    textures_load("res/ship.png", "ship");
+    textures_load("res/back.png", "background");
 }
 
 void stop_game()
@@ -258,7 +206,7 @@ void stop_game()
     //TODO: move this from here
     //sprite_destroy(&ship.sprite);
 
-    destroy_textures();
+    textures_destroy();
     window_stop();
 }
 
@@ -292,13 +240,12 @@ int main(int argc, char* argv[])
     {
         srand(time(NULL));
         
-        list = NULL;
-
         settings_load(&settings, working_directory);
         load_textures();
 
-        background_init();
-        meteors_init();
+        background_init(textures_getTexture("background"));
+
+        scene_load(0);
 
         loop();
     }

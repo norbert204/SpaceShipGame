@@ -3,8 +3,12 @@
 Vector2D smaller_bg_positions[BG_SMALL_COUNT];
 Vector2D bigger_bg_positions[BG_BIG_COUNT];
 
-void background_init()
+static SDL_Texture *bg_texture;
+
+void background_init(SDL_Texture *texture)
 {
+    bg_texture = texture;
+
     smaller_bg_positions[0] = (Vector2D) { 0.0f, 0.0f };
     smaller_bg_positions[1] = (Vector2D) { 0.0f, BG_SMALL_SIZE_Y };
     smaller_bg_positions[2] = (Vector2D) { BG_SMALL_SIZE_X, 0.0f };
@@ -20,7 +24,7 @@ void background_update()
 {
     for (int i = 0; i < BG_BIG_COUNT; i++)
     {
-        bigger_bg_positions[i].x -= BG_BIG_SPEED * delta_time;
+        bigger_bg_positions[i].x -= BG_BIG_SPEED * time_getDeltaTime();
         if (bigger_bg_positions[i].x < -BG_BIG_SIZE_X)
         {
             bigger_bg_positions[i].x += BG_TARGET_POS + BG_BIG_SIZE_X;
@@ -29,7 +33,7 @@ void background_update()
 
     for (int i = 0; i < BG_SMALL_COUNT; i++)
     {
-        smaller_bg_positions[i].x -= BG_SMALL_SPEED * delta_time;
+        smaller_bg_positions[i].x -= BG_SMALL_SPEED * time_getDeltaTime();
         if (smaller_bg_positions[i].x < -BG_SMALL_SIZE_X)
         {
             smaller_bg_positions[i].x += BG_TARGET_POS + BG_SMALL_SIZE_X;
@@ -37,14 +41,14 @@ void background_update()
     }
 }
 
-void background_render(SDL_Texture *texture)
+void background_render()
 {
     for (int i = 0; i < BG_SMALL_COUNT; i++)
     {
-        window_renderEx(smaller_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_SMALL_SIZE_X, BG_SMALL_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, texture);
+        window_renderEx(smaller_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_SMALL_SIZE_X, BG_SMALL_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, bg_texture);
     }
     for (int i = 0; i < BG_BIG_COUNT; i++)
     {
-        window_renderEx(bigger_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_BIG_SIZE_X, BG_BIG_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, texture);
+        window_renderEx(bigger_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_BIG_SIZE_X, BG_BIG_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, bg_texture);
     }
 }

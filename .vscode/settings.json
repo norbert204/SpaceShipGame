@@ -22,6 +22,7 @@
         "string_view": "c",
         "initializer_list": "c",
         "utility": "c",
-        "valarray": "c"
+        "valarray": "c",
+        "system_player.h": "c"
     }
 }

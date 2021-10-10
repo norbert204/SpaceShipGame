@@ -25,7 +25,7 @@ void sprite_update(Entity *entity)
         {
             if (sprite->animation_frame_countdown > 0)
             {
-                sprite->animation_frame_countdown -= delta_time;
+                sprite->animation_frame_countdown -= time_getDeltaTime();
 
                 if (sprite->animation_frame_countdown <= 0)
                 {

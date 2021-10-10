@@ -7,6 +7,7 @@
 #include "../engine/inputs.h"
 #include "../entity.h"
 
+void player_init();
 void player_update(Entity *entity);
 
 #endif

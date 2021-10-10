@@ -3,20 +3,25 @@
 static int meteor_count;
 static float meteor_spawn_timer;
 
-void meteors_init()
+static SDL_Texture *m_texture;
+
+void meteors_init(SDL_Texture *texture)
 {
+    m_texture = texture;
+
     meteor_count = 0;
     meteor_spawn_timer = METEOR_SPAWN_TIME;
 }
 
-void meteors_update(EntityList *list, SDL_Texture *texture)
+void meteors_update(EntityList *list)
 {
-    meteor_spawn_timer -= delta_time;
+    meteor_spawn_timer -= time_getDeltaTime();
+
     if (meteor_spawn_timer <= 0)
     {
         Entity tmp = entity_create();
         entity_addTransformComponent(&tmp, (Vector2D) { WINDOW_WIDTH + 128 + rand() % 128, rand() % (WINDOW_HEIGHT - 128) }, 1 + rand() % 2, rand() % 360);
-        entity_addSpriteComponent(&tmp, texture, 1, (Size2D) { 128, 128 });
+        entity_addSpriteComponent(&tmp, m_texture, 1, (Size2D) { 128, 128 });
 
         Vector2Di frames[1];
         frames[0] = (Vector2Di) { 0, 0 };
@@ -42,6 +47,6 @@ int meteors_updateEntity(EntityList *list, Entity *entity)
         return 1;
     }
     
-    entity->components.transform->angle -= 100 * delta_time;   
+    entity->components.transform->angle -= 100 * time_getDeltaTime();   
     return 0;
 }

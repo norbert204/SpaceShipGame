@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 #include "engine/window.h"
-#include "engine/utilities.h"
+#include "engine/time.h"
 #include "engine/structs.h"
 
 #define BG_TARGET_POS WINDOW_WIDTH
@@ -27,8 +27,8 @@
 extern Vector2D smaller_bg_positions[BG_SMALL_COUNT];
 extern Vector2D bigger_bg_positions[BG_BIG_COUNT];
 
-void background_init();
+void background_init(SDL_Texture *texture);
 void background_update();
-void background_render(SDL_Texture *texture);
+void background_render();
 
 #endif

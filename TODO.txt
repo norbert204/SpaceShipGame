@@ -23,5 +23,4 @@ TODO
 - REFACTOR
     * mathe.h
     * structs.h
-    * utilities.h
     * window.h

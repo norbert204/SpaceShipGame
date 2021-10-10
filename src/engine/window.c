@@ -117,7 +117,7 @@ void window_renderSprite(const Transform transform, const Sprite sprite)
     SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
 
-/*void window_renderEntityList(const EntityList list)
+void window_renderEntityList(const EntityList list)
 {
     EntityListItem *item = list;
     while (item != NULL)
@@ -199,37 +199,9 @@ void window_renderEx(const Vector2D position, const Size2D sprite_size, const Si
     SDL_SetTextureColorMod(texture, 255, 255, 255);
 }
 
-SDL_Texture * window_loadTexture(const char *path)
-{
-    SDL_Texture *texture = NULL;
-    SDL_Surface *surface = IMG_Load(path);
-    if (surface!= NULL) 
-    {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
-        if (texture == NULL)
-        {
-            fprintf(stderr, "[Engine] Unable to create texture from %s surface: %s\n", path, SDL_GetError());
-        }
-
-        SDL_FreeSurface(surface);
-    }
-    else 
-    {
-        fprintf(stderr, "[Engine] Unable to load image %s : %s\n", path, IMG_GetError());
-    }
-
-    return texture;
-}
-
 void window_display()
 {
     SDL_RenderPresent(renderer);
-}
-
-void * window_destroyTexture(SDL_Texture *texture)
-{
-    SDL_DestroyTexture(texture);
-    return NULL;
 }
 
 int window_getRefreshRate()
