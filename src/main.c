@@ -34,6 +34,7 @@
 char working_directory[FILENAME_MAX];
 
 #define MIN_FRAME_TIME 1000
+#define UPDATE_DELAY 10
 
 bool stop = false;
 
@@ -48,50 +49,6 @@ void handle_events(SDL_Event *event)
             case SDL_QUIT:
                 stop = true;
                 break;
-            /*case SDL_KEYDOWN:
-                switch (event->key.keysym.sym)
-                {
-                    case SDLK_e:
-                        EntityListItem *tmp = list;
-                        while (tmp != NULL)
-                        {
-                            printf("Entity %d:\n", tmp->item.id);
-                            printf("\tType: %d\n", tmp->item.type);
-                            printf("\tTransform: %s\n", (tmp->item.components.transform != NULL) ? "yes" : "no");
-                            printf("\tSprite: %s\n", (tmp->item.components.sprite != NULL) ? "yes" : "no");
-                            printf("\tBoxCollider: %s\n",  (tmp->item.components.box_collider != NULL) ? "yes" : "no");
-                            printf("\tCircleCollider: %s\n",  (tmp->item.components.circle_collider != NULL) ? "yes" : "no");
-                            printf("\tRigidbody: %s\n",  (tmp->item.components.rigidbody != NULL) ? "yes" : "no");
-
-                            tmp = tmp->next;
-                        }
-                        printf("\n");
-                        break;
-                    case SDLK_d:
-                        if (list != NULL)
-                        {
-                            EntityListItem *tmp = list;
-                            while (tmp->next != NULL)
-                            {
-                                tmp = tmp->next;
-                            }
-                            while (tmp != NULL)
-                            {
-                                if (tmp->prev != NULL)
-                                {
-                                    tmp = tmp->prev;
-                                    entity_delete(&list, tmp->next->item.id);
-                                }
-                                else 
-                                {
-                                    entity_delete(&list, tmp->item.id);
-                                    tmp = NULL;
-                                }
-                            }
-                        }
-                        break;
-                }
-                break;*/
         }
     }
 }
@@ -106,8 +63,7 @@ void loop()
     int fps = 0;
     int last_fps_calculation = SDL_GetTicks();
 
-    //  If we don't delay the updates when starting the game, the background will be buggy
-    int update_delay = 10;
+    int update_delay = UPDATE_DELAY;
 
     while (!stop)
     {
@@ -120,20 +76,18 @@ void loop()
 
         //
         //  Update
+        //  If we don't delay them we get some pretty weird bugs for some reason
         //
-        keyboard_update();
-
         if (update_delay == 0)
         {
-            //ship_update(&ship);
+            keyboard_update();
             background_update();
+            scene_update();
         }
         else
         {
             update_delay--;
         }
-
-        scene_update();
 
         //
         //  Render
@@ -147,8 +101,8 @@ void loop()
         sprite_render(scene_getCurrentScene()->entities);
 
         //  HUD Layer
-        //missile_renderHUD(tex_blank);
 
+        
         window_display();
 
         //
@@ -203,9 +157,6 @@ void load_textures()
 
 void stop_game()
 {
-    //TODO: move this from here
-    //sprite_destroy(&ship.sprite);
-
     textures_destroy();
     window_stop();
 }

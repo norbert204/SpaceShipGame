@@ -15,10 +15,10 @@ Plan
     - Scenes have a unique entity LinkedList
 
 TODO
+- Optimize the code because the FPS got hit HARD (reduce the number of loops maybe?)
 - Finish ECS
 - There are a bunch of mallocs..but where are the frees?
 - Sound system
-- Texture manager
 - Clear up the render methods
 - REFACTOR
     * mathe.h

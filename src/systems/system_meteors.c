@@ -16,6 +16,7 @@ void meteors_init(SDL_Texture *texture)
 void meteors_update(EntityList *list)
 {
     meteor_spawn_timer -= time_getDeltaTime();
+    
 
     if (meteor_spawn_timer <= 0)
     {

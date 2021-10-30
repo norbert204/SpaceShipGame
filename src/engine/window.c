@@ -25,6 +25,10 @@ bool window_init()
         fprintf(stderr, "[Engine] SDL_Image couldn't initialize: %s\n", SDL_GetError());
         return false;
     }
+    if (TTF_Init < 0) 
+    {
+        fprintf(stderr, "[Engine] SDL_ttf couldn't initialize: %s\n", SDL_GetError());
+    }
 
     window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -211,7 +215,6 @@ int window_getRefreshRate()
     SDL_GetDisplayMode(display_index, 0, &mode);
 
     return mode.refresh_rate;
-
 }
 
 void window_stop()
