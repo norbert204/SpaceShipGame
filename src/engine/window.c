@@ -52,7 +52,7 @@ void window_clear()
 {
     SDL_RenderClear(renderer);
 }
-
+/*
 void window_render(const Vector2D position, const Size2D sprite_size, SDL_Texture *texture)
 {
     SDL_Rect pos_rect;
@@ -75,6 +75,7 @@ void window_render(const Vector2D position, const Size2D sprite_size, SDL_Textur
     SDL_SetTextureColorMod(texture, 255, 255, 255);
     SDL_RenderCopyEx(renderer, texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
 }
+*/
 void window_renderSprite(const Transform transform, const Sprite sprite)
 {
     SDL_Rect pos_rect;
@@ -97,84 +98,6 @@ void window_renderSprite(const Transform transform, const Sprite sprite)
     SDL_SetTextureColorMod(sprite.texture, 255, 255, 255);
     SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, transform.angle, &center, SDL_FLIP_NONE);
 }
-/*void window_renderSprite(const Vector2D position, const Sprite sprite)
-{
-    SDL_Rect pos_rect;
-    pos_rect.x = position.x;
-    pos_rect.y = position.y;
-    pos_rect.w = sprite.tile_size.w;
-    pos_rect.h = sprite.tile_size.h;
-
-    SDL_Rect image_rect;
-    Animation anim = sprite_getCurrentAnimation(sprite);
-    image_rect.x = anim.frames[anim.current_frame].x;
-    image_rect.y = anim.frames[anim.current_frame].y;
-    image_rect.w = sprite.tile_size.w;
-    image_rect.h = sprite.tile_size.h;
-
-    SDL_Point center;
-    center.x = sprite.tile_size.w / 2;
-    center.y = sprite.tile_size.h / 2;
-
-    SDL_SetTextureAlphaMod(sprite.texture, 255);
-    SDL_SetTextureColorMod(sprite.texture, 255, 255, 255);
-    SDL_RenderCopyEx(renderer, sprite.texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
-}
-
-void window_renderEntityList(const EntityList list)
-{
-    EntityListItem *item = list;
-    while (item != NULL)
-    {
-        if (item->item.transform != NULL && item->item.sprite != NULL)
-        {
-            SDL_Rect pos_rect;
-            pos_rect.x = item->item.transform->position.x;
-            pos_rect.y = item->item.transform->position.y;
-            pos_rect.w = item->item.sprite->tile_size.w * item->item.transform->scale;
-            pos_rect.h = item->item.sprite->tile_size.h * item->item.transform->scale;
-
-            SDL_Rect image_rect;
-            Animation anim = sprite_getCurrentAnimation(*item->item.sprite);
-            image_rect.x = anim.frames[anim.current_frame].x;
-            image_rect.y = anim.frames[anim.current_frame].y;
-            image_rect.w = item->item.sprite->tile_size.w;
-            image_rect.h = item->item.sprite->tile_size.h;
-
-            SDL_Point center;
-            center.x = item->item.sprite->tile_size.w * item->item.transform->scale / 2;
-            center.y = item->item.sprite->tile_size.h * item->item.transform->scale / 2;
-
-            SDL_SetTextureAlphaMod(item->item.sprite->texture, 255);
-            SDL_SetTextureColorMod(item->item.sprite->texture, 255, 255, 255);
-            SDL_RenderCopyEx(renderer, item->item.sprite->texture, &image_rect, &pos_rect, 0, &center, SDL_FLIP_NONE);
-        }
-        item = item->next;
-    }
-}*/
-
-/*void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture)
-{
-    SDL_Rect pos_rect;
-    pos_rect.x = transform.position.x;
-    pos_rect.y = transform.position.y;
-    pos_rect.w = sprite_size.w * transform.scale;
-    pos_rect.h = sprite_size.h * transform.scale;
-
-    SDL_Rect image_rect;
-    image_rect.x = 0;
-    image_rect.y = 0;
-    image_rect.w = sprite_size.w;
-    image_rect.h = sprite_size.h;
-
-    SDL_Point center;
-    center.x = sprite_size.w * transform.scale / 2;
-    center.y = sprite_size.h * transform.scale / 2;
-
-    SDL_SetTextureAlphaMod(texture, 255);
-    SDL_SetTextureColorMod(texture, 255, 255, 255);
-    SDL_RenderCopyEx(renderer, texture, &image_rect, &pos_rect, transform.angle, &center, SDL_FLIP_NONE);
-}*/
 
 void window_renderEx(const Vector2D position, const Size2D sprite_size, const Size2D target_size, double angle, Color color, SDL_Texture *texture)
 {
