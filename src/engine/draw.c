@@ -1,5 +1,16 @@
 #include "engine/draw.h"
 
+int text_init()
+{
+    if (TTF_Init < 0) 
+    {
+        fprintf(stderr, "[Engine] SDL_ttf couldn't initialize: %s\n", SDL_GetError());
+        return 0;
+    }
+
+    return 1;
+}
+
 void draw_rectangle(const int x, const int y, const int w, const int h, const Color color)
 {
     SDL_Rect rect;
@@ -82,4 +93,9 @@ void draw_circle(const float x, const float y, const float r)
 void draw_text(char *text)
 {
     //  TODO: ...yes
+}
+
+void text_stop()
+{
+    TTF_Quit();
 }

@@ -12,10 +12,14 @@
 #define COLOR_BLUE (Color) { 0, 0, 255 }
 #define COLOR_YELLOW (Color) { 255, 255, 0 }
 
+int text_init();
+
 void draw_rectangle(const int x, const int y, const int w, const int h, const Color color);
 void draw_rectangle1(const Vector2D position, const Size2D size, const Color color);
 void draw_filledRectangle(const int x, const int y, const int w, const int h, Color color);
 void draw_circle(const float x, const float y, const float r);
 void draw_text(char *text);
+
+void text_stop();
 
 #endif

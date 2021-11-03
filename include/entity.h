@@ -60,5 +60,6 @@ void entity_addRigidbodyComponent(Entity *entity);
 void entity_addToList(EntityList *list, const Entity entity);
 
 void entity_delete(EntityList *list, unsigned long id);
+void entity_clearList(EntityList *list);
 
 #endif

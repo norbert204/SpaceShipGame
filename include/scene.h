@@ -18,14 +18,16 @@
 #include "systems/system_meteors.h"
 
 #include "engine/textures.h"
+#include "engine/sound.h"
 
-typedef struct
+typedef struct scene
 {
     EntityList entities;
     u_int8_t enabled_systems[SYSTEM_COUNT];
+    char *music_file;
 } Scene;
 
-extern Scene scenes[];
+extern Scene scenes[1];
 
 void scene_load(const int id);
 void scene_update();

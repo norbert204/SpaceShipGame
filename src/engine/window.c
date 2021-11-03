@@ -25,9 +25,13 @@ bool window_init()
         fprintf(stderr, "[Engine] SDL_Image couldn't initialize: %s\n", SDL_GetError());
         return false;
     }
-    if (TTF_Init < 0) 
+    if (!text_init())
     {
-        fprintf(stderr, "[Engine] SDL_ttf couldn't initialize: %s\n", SDL_GetError());
+        return false;
+    }
+    if (!sound_init())
+    {
+        return false;
     }
 
     window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);

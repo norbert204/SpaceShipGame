@@ -158,6 +158,12 @@ void load_textures()
 void stop_game()
 {
     textures_destroy();
+    sound_stop();
+    text_stop();
+    for (int i = 0; i < sizeof(scenes)/sizeof(scenes[0]); i++)
+    {
+        entity_clearList(scenes[i].entities);
+    }
     window_stop();
 }
 

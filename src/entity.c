@@ -89,6 +89,7 @@ void entity_addToList(EntityList *list, const Entity entity)
     entity_count++;
 }
 
+//  TODO: these 2 are kind of reduntant 
 void entity_delete(EntityList *list, unsigned long id)
 {
     if (*list == NULL)
@@ -106,7 +107,7 @@ void entity_delete(EntityList *list, unsigned long id)
 
         if (tmp == NULL)
         {
-            fprintf(stderr, "[Engine] Erorr deleting Entity: Entity is not in the list!\n");
+            fprintf(stderr, "[Engine] Error deleting Entity: Entity is not in the list!\n");
         }
         else
         {
@@ -162,5 +163,69 @@ void entity_delete(EntityList *list, unsigned long id)
         }
 
         entity_count--;
+    }
+}
+
+void entity_clearList(EntityList *list)
+{
+    if (*list == NULL)
+    {
+        return;
+    }
+    EntityListItem *tmp = *list;
+    while (tmp->next != NULL)
+    {
+        tmp = tmp->next;
+    }
+
+    while (tmp != NULL)
+    {
+        if (tmp->item.components.transform != NULL)
+        {
+            free(tmp->item.components.transform);
+            tmp->item.components.transform = NULL;
+        }
+
+        if (tmp->item.components.sprite != NULL)
+        {
+            for (int i = 0; i < tmp->item.components.sprite->number_of_animations; i++)
+            {
+                free(tmp->item.components.sprite->animations[i].frames);
+            }
+            free(tmp->item.components.sprite->animations);
+            free(tmp->item.components.sprite);
+            tmp->item.components.sprite = NULL;
+        }
+
+        if (tmp->item.components.box_collider != NULL)
+        {
+            free(tmp->item.components.box_collider);
+            tmp->item.components.box_collider = NULL;
+        }
+
+        if (tmp->item.components.circle_collider != NULL)
+        {
+            free(tmp->item.components.circle_collider);
+            tmp->item.components.circle_collider = NULL;
+        }
+
+        if (tmp->item.components.rigidbody != NULL)
+        {
+            free(tmp->item.components.rigidbody);
+            tmp->item.components.rigidbody = NULL;
+        }
+
+        if (tmp->prev != NULL)
+        {
+            tmp->prev->next = tmp;
+            tmp = tmp->prev;
+
+            free(tmp->next);
+        }
+        else 
+        {
+            free(tmp);
+            tmp = NULL;
+        }
     }
 }

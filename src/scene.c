@@ -3,7 +3,7 @@
 static int current_scene;
 
 Scene scenes[] = {
-    (Scene) { NULL, { 1, 1, 1, 1, 1 } }
+    (Scene) { NULL, { 1, 1, 1, 1, 1 }, "res/sound/GameMusicLoop.ogg" }
 };
 
 void scene_load(const int id) 
@@ -19,6 +19,8 @@ void scene_load(const int id)
     {
         meteors_init(textures_getTexture("meteor"));
     }
+
+    sound_playMusic(scenes[id].music_file);
 }
 
 void scene_update()

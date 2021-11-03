@@ -23,6 +23,8 @@
         "initializer_list": "c",
         "utility": "c",
         "valarray": "c",
-        "system_player.h": "c"
+        "system_player.h": "c",
+        "component_transform.h": "c",
+        "sdl_mixer.h": "c"
     }
 }

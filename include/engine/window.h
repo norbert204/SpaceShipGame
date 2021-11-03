@@ -11,12 +11,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 
-#include "structs.h"
-#include "draw.h"
+#include "engine/structs.h"
+#include "engine/draw.h"
 #include "../components/component_sprite.h"
 #include "../components/component_transform.h"
 #include "entity.h"
+
+#include "engine/sound.h"
 
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
