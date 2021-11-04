@@ -49,6 +49,12 @@ void handle_events(SDL_Event *event)
             case SDL_QUIT:
                 stop = true;
                 break;
+            case SDL_KEYDOWN:
+                if (event->key.keysym.sym == SDLK_F4)
+                {
+                    window_setFullscreen();
+                }
+                break;
         }
     }
 }
@@ -101,7 +107,7 @@ void loop()
         sprite_render(scene_getCurrentScene()->entities);
 
         //  HUD Layer
-
+        draw_text("Test", (Vector2D) {100, 100});
         
         window_display();
 
@@ -162,7 +168,7 @@ void stop_game()
     text_stop();
     for (int i = 0; i < sizeof(scenes)/sizeof(scenes[0]); i++)
     {
-        entity_clearList(scenes[i].entities);
+        entity_clearList(&scenes[i].entities);
     }
     window_stop();
 }

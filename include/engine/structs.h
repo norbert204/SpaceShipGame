@@ -18,9 +18,4 @@ typedef struct
     int w, h;
 } Size2D;
 
-typedef struct
-{
-    int r, g, b, a;
-} Color;
-
 #endif

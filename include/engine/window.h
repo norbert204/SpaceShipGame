@@ -28,13 +28,14 @@ SDL_Window *window_getWindow();
 SDL_Renderer *window_getRenderer();
 
 bool window_init();
+void window_setFullscreen();
 void window_clear();
 
 void window_render(const Vector2D position, const Size2D sprite_size, SDL_Texture *texture);
 void window_renderSprite(const Transform transform, const Sprite sprite);
 //void window_renderEntityList(const EntityList list);
 //void window_renderTransform(const Transform transform, const Size2D sprite_size, SDL_Texture *texture);
-void window_renderEx(const Vector2D position, const Size2D sprite_size, const Size2D target_size, double angle, Color color, SDL_Texture *texture);
+void window_renderEx(const Vector2D position, const Size2D sprite_size, const Size2D target_size, const Vector2D image_position, double angle, SDL_Color color, SDL_Texture *texture);
 
 void window_display();
 int window_getRefreshRate();

@@ -45,10 +45,10 @@ void background_render()
 {
     for (int i = 0; i < BG_SMALL_COUNT; i++)
     {
-        window_renderEx(smaller_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_SMALL_SIZE_X, BG_SMALL_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, bg_texture);
+        window_renderEx(smaller_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_SMALL_SIZE_X, BG_SMALL_SIZE_Y}, VECTOR2D_ZERO, 0, (SDL_Color) {255, 255, 255, 100}, bg_texture);
     }
     for (int i = 0; i < BG_BIG_COUNT; i++)
     {
-        window_renderEx(bigger_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_BIG_SIZE_X, BG_BIG_SIZE_Y}, 0, (Color) {255, 255, 255, 100}, bg_texture);
+        window_renderEx(bigger_bg_positions[i], (Size2D) { 128, 64 }, (Size2D) { BG_BIG_SIZE_X, BG_BIG_SIZE_Y}, VECTOR2D_ZERO, 0, (SDL_Color) {255, 255, 255, 100}, bg_texture);
     }
 }
