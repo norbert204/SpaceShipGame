@@ -89,6 +89,44 @@ void entity_addToList(EntityList *list, const Entity entity)
     entity_count++;
 }
 
+void entity_destroy(Entity entity)
+{
+    if (entity.components.transform != NULL)
+    {
+        free(entity.components.transform);
+        entity.components.transform = NULL;
+    }
+
+    if (entity.components.sprite != NULL)
+    {
+        for (int i = 0; i < entity.components.sprite->number_of_animations; i++)
+        {
+            free(entity.components.sprite->animations[i].frames);
+        }
+        free(entity.components.sprite->animations);
+        free(entity.components.sprite);
+        entity.components.sprite = NULL;
+    }
+
+    if (entity.components.box_collider != NULL)
+    {
+        free(entity.components.box_collider);
+        entity.components.box_collider = NULL;
+    }
+
+    if (entity.components.circle_collider != NULL)
+    {
+        free(entity.components.circle_collider);
+        entity.components.circle_collider = NULL;
+    }
+
+    if (entity.components.rigidbody != NULL)
+    {
+        free(entity.components.rigidbody);
+        entity.components.rigidbody = NULL;
+    }
+}
+
 //  TODO: these 2 are kind of reduntant 
 void entity_delete(EntityList *list, unsigned long id)
 {
@@ -116,40 +154,7 @@ void entity_delete(EntityList *list, unsigned long id)
             if (tmp->next != NULL)
                 tmp->next->prev = tmp->prev;
 
-            if (tmp->item.components.transform != NULL)
-            {
-                free(tmp->item.components.transform);
-                tmp->item.components.transform = NULL;
-            }
-
-            if (tmp->item.components.sprite != NULL)
-            {
-                for (int i = 0; i < tmp->item.components.sprite->number_of_animations; i++)
-                {
-                    free(tmp->item.components.sprite->animations[i].frames);
-                }
-                free(tmp->item.components.sprite->animations);
-                free(tmp->item.components.sprite);
-                tmp->item.components.sprite = NULL;
-            }
-
-            if (tmp->item.components.box_collider != NULL)
-            {
-                free(tmp->item.components.box_collider);
-                tmp->item.components.box_collider = NULL;
-            }
-
-            if (tmp->item.components.circle_collider != NULL)
-            {
-                free(tmp->item.components.circle_collider);
-                tmp->item.components.circle_collider = NULL;
-            }
-
-            if (tmp->item.components.rigidbody != NULL)
-            {
-                free(tmp->item.components.rigidbody);
-                tmp->item.components.rigidbody = NULL;
-            }
+            entity_destroy(tmp->item);
             
             if (id == (*list)->item.id)
             {
@@ -180,40 +185,7 @@ void entity_clearList(EntityList *list)
 
     while (tmp != NULL)
     {
-        if (tmp->item.components.transform != NULL)
-        {
-            free(tmp->item.components.transform);
-            tmp->item.components.transform = NULL;
-        }
-
-        if (tmp->item.components.sprite != NULL)
-        {
-            for (int i = 0; i < tmp->item.components.sprite->number_of_animations; i++)
-            {
-                free(tmp->item.components.sprite->animations[i].frames);
-            }
-            free(tmp->item.components.sprite->animations);
-            free(tmp->item.components.sprite);
-            tmp->item.components.sprite = NULL;
-        }
-
-        if (tmp->item.components.box_collider != NULL)
-        {
-            free(tmp->item.components.box_collider);
-            tmp->item.components.box_collider = NULL;
-        }
-
-        if (tmp->item.components.circle_collider != NULL)
-        {
-            free(tmp->item.components.circle_collider);
-            tmp->item.components.circle_collider = NULL;
-        }
-
-        if (tmp->item.components.rigidbody != NULL)
-        {
-            free(tmp->item.components.rigidbody);
-            tmp->item.components.rigidbody = NULL;
-        }
+        entity_destroy(tmp->item);
 
         if (tmp->prev != NULL)
         {

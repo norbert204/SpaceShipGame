@@ -58,7 +58,7 @@ void entity_addCircleColliderComponent(Entity *entity, const Vector2D center, co
 void entity_addRigidbodyComponent(Entity *entity);
 
 void entity_addToList(EntityList *list, const Entity entity);
-
+void entity_destroy(Entity entity);
 void entity_delete(EntityList *list, unsigned long id);
 void entity_clearList(EntityList *list);
 
