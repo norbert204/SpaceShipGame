@@ -1,7 +1,10 @@
 #ifndef DRAW_H
 #define DRAW_H
 
+#include <stdio.h>
+
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "structs.h"
 #include "window.h"

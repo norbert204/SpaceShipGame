@@ -13,13 +13,13 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
 
-#include "engine/structs.h"
-#include "engine/draw.h"
+#include "structs.h"
+#include "draw.h"
 #include "../components/component_sprite.h"
 #include "../components/component_transform.h"
-#include "entity.h"
+#include "../entity.h"
 
-#include "engine/sound.h"
+#include "sound.h"
 
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
